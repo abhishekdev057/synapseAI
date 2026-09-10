@@ -76,7 +76,7 @@ export default async function GamesList({
           );
         })}
       </ul>
-      <p className="text-base text-muted">{t.onlyMemoryLanePlayable}</p>
+      <p className="text-base text-muted">{t.takeYourTime}</p>
     </div>
   );
 }

@@ -117,7 +117,15 @@ export const GAMES: GameMeta[] = [
   },
 ];
 
-export const PLAYABLE_GAME_KEYS = ["memory_lane"] as const;
+export const PLAYABLE_GAME_KEYS = [
+  "memory_lane",
+  "market_basket",
+  "morning_routine",
+  "pattern_of_the_loom",
+  "bird_and_beast",
+  "song_of_the_hills",
+  "word_garden",
+] as const;
 
 export function gameByKey(key: string): GameMeta | undefined {
   return GAMES.find((g) => g.key === key);

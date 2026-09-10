@@ -1,0 +1,33 @@
+import { BirdAndBeast } from "@/components/patient/games/BirdAndBeast";
+import { ClientOnly } from "@/components/patient/games/ClientOnly";
+import { GameLoading } from "@/components/patient/games/GameShell";
+import { resolvePatientId } from "@/lib/demo";
+import { getPatient, recommendDifficulty } from "@/lib/queries";
+import { resolvePatientLang } from "@/lib/patient-lang";
+
+export const dynamic = "force-dynamic";
+
+export default async function BirdAndBeastPage({
+  searchParams,
+}: PageProps<"/patient/games/bird-and-beast">) {
+  const sp = await searchParams;
+  const patientId = await resolvePatientId(sp);
+  const patient = patientId ? await getPatient(patientId) : null;
+  if (!patient) return <p className="text-lg">No patient found.</p>;
+
+  const { dict: t, speechTag } = await resolvePatientLang(patient.language);
+  const decision = await recommendDifficulty(patient.id, "bird_and_beast");
+
+  return (
+    <ClientOnly fallback={<GameLoading title={t.titleBirdBeast} />}>
+      <BirdAndBeast
+        patientId={patient.id}
+        patientName={patient.name.split(" ")[0]}
+        speechTag={speechTag}
+        dict={t}
+        initialDifficulty={decision.next}
+        initialReason={decision.reason}
+      />
+    </ClientOnly>
+  );
+}

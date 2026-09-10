@@ -53,6 +53,55 @@ const en: Dict = {
     "No family added yet. A caregiver can add them from the family dashboard.",
   thisIsPerson: "This is {name}, your {relationship}. {notes}",
   language: "Language",
+
+  // Shared game words
+  takeYourTime: "Take your time. There is no timer.",
+  undo: "Undo",
+  showAgain: "Show me again",
+  imReady: "I'm ready",
+  begin: "Begin",
+  watchCarefully: "Watch carefully.",
+  nowYourTurn: "Now it is your turn.",
+  nextOne: "Next",
+  goodChoice: "Good choice.",
+  tryAnother: "Not quite. Try another.",
+  sayTheWord: "Say the word",
+  orTapAnswer: "or tap an answer",
+  roundProgress: "{a} of {b}",
+  foundAll: "You found them all.",
+
+  // Market Basket
+  titleMarketBasket: "Market Basket",
+  instrMarketBasket: "Remember what to buy, then pick each thing at the market.",
+  thingsToBuy: "Things to buy",
+  goToMarket: "Go to the market",
+
+  // Morning Routine
+  titleMorningRoutine: "Morning Routine",
+  instrMorningRoutine: "Put the morning steps in the order you do them.",
+
+  // Pattern of the Loom
+  titlePatternLoom: "Pattern of the Loom",
+  instrPatternLoom:
+    "Watch the lights on the loom, then tap them in the same order.",
+
+  // Bird & Beast
+  titleBirdBeast: "Bird & Beast",
+  instrBirdBeast: "Tap every {target} you can see. Leave the rest.",
+  theHornbill: "hornbill",
+  theRhino: "rhino",
+  theElephant: "elephant",
+  theDeer: "deer",
+
+  // Song of the Hills
+  titleSongHills: "Song of the Hills",
+  instrSongHills:
+    "One word is missing from the song. Choose the word that fits.",
+  hearTheLine: "Hear the line",
+
+  // Word Garden
+  titleWordGarden: "Word Garden",
+  instrWordGarden: "What is this? Say the word, or tap the right answer.",
 };
 
 const hi: Dict = {
@@ -92,6 +141,47 @@ const hi: Dict = {
   noFamilyYet: "अभी तक कोई परिवार नहीं जोड़ा गया। देखभालकर्ता इसे जोड़ सकते हैं।",
   thisIsPerson: "यह {name} हैं, आपके {relationship}। {notes}",
   language: "भाषा",
+
+  // Shared game words
+  takeYourTime: "आराम से कीजिए। कोई समय-सीमा नहीं है।",
+  undo: "वापस लें",
+  showAgain: "फिर से दिखाओ",
+  imReady: "मैं तैयार हूँ",
+  begin: "शुरू करें",
+  watchCarefully: "ध्यान से देखिए।",
+  nowYourTurn: "अब आपकी बारी है।",
+  nextOne: "अगला",
+  goodChoice: "सही चुना।",
+  tryAnother: "ठीक नहीं। दूसरा देखिए।",
+  sayTheWord: "शब्द बोलिए",
+  orTapAnswer: "या कोई उत्तर दबाइए",
+  roundProgress: "{b} में से {a}",
+  foundAll: "आपने सब ढूँढ लिए।",
+
+  titleMarketBasket: "Market Basket",
+  instrMarketBasket: "क्या खरीदना है याद रखिए, फिर बाज़ार में हर चीज़ चुनिए।",
+  thingsToBuy: "खरीदने की चीज़ें",
+  goToMarket: "बाज़ार चलें",
+
+  titleMorningRoutine: "Morning Routine",
+  instrMorningRoutine: "सुबह के कामों को उसी क्रम में रखिए जिस क्रम में आप करते हैं।",
+
+  titlePatternLoom: "Pattern of the Loom",
+  instrPatternLoom: "करघे की बत्तियाँ देखिए, फिर उसी क्रम में उन्हें दबाइए।",
+
+  titleBirdBeast: "Bird & Beast",
+  instrBirdBeast: "हर {target} पर दबाइए। बाकी को छोड़ दीजिए।",
+  theHornbill: "धनेश पक्षी",
+  theRhino: "गैंडा",
+  theElephant: "हाथी",
+  theDeer: "हिरण",
+
+  titleSongHills: "Song of the Hills",
+  instrSongHills: "गीत में एक शब्द नहीं है। सही शब्द चुनिए।",
+  hearTheLine: "पंक्ति सुनिए",
+
+  titleWordGarden: "Word Garden",
+  instrWordGarden: "यह क्या है? शब्द बोलिए, या सही उत्तर दबाइए।",
 };
 
 const as: Dict = {
