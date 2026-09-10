@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.domain.CognitiveDomain
+import com.sigmafusion.synapse.ui.components.Medallion
 import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.voice.VoiceInputButton
@@ -111,9 +112,9 @@ fun WordGardenScreen(onDone: () -> Unit) {
             Column(
                 Modifier.fillMaxWidth().padding(28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Text(pic.emoji, fontSize = 84.sp)
+                Medallion(size = 132.dp) { Text(pic.emoji, fontSize = 76.sp) }
                 if (solved) {
                     Text(
                         pic.word,

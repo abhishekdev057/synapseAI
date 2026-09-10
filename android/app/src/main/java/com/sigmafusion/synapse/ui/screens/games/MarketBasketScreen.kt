@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.domain.CognitiveDomain
+import com.sigmafusion.synapse.ui.components.Medallion
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SecondaryButton
 import com.sigmafusion.synapse.ui.i18n.LocalStrings
@@ -82,11 +83,14 @@ fun MarketBasketScreen(onDone: () -> Unit) {
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(t.thingsToBuy, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                     list.forEach { g ->
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(g.emoji, fontSize = 28.sp, modifier = Modifier.padding(end = 12.dp))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        ) {
+                            Medallion(size = 44.dp) { Text(g.emoji, fontSize = 22.sp) }
                             Text(g.name, style = MaterialTheme.typography.bodyLarge)
                         }
                     }
@@ -112,14 +116,12 @@ fun MarketBasketScreen(onDone: () -> Unit) {
                                 onClick = {
                                     chosen = if (picked) chosen - g.name else chosen + g.name
                                 },
-                                shape = RoundedCornerShape(18.dp),
+                                shape = RoundedCornerShape(20.dp),
                                 color = if (picked) MaterialTheme.colorScheme.primaryContainer
-                                else MaterialTheme.colorScheme.surface,
-                                border = androidx.compose.foundation.BorderStroke(
-                                    1.dp,
-                                    if (picked) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.outline,
-                                ),
+                                else androidx.compose.ui.graphics.Color.Transparent,
+                                border = if (picked) androidx.compose.foundation.BorderStroke(
+                                    2.dp, MaterialTheme.colorScheme.primary,
+                                ) else null,
                                 modifier = Modifier.weight(1f).aspectRatio(1f),
                             ) {
                                 Column(
@@ -127,7 +129,11 @@ fun MarketBasketScreen(onDone: () -> Unit) {
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center,
                                 ) {
-                                    Text(g.emoji, fontSize = 30.sp)
+                                    if (picked) {
+                                        Text(g.emoji, fontSize = 30.sp)
+                                    } else {
+                                        Medallion(size = 46.dp) { Text(g.emoji, fontSize = 24.sp) }
+                                    }
                                     Text(
                                         g.name,
                                         style = MaterialTheme.typography.labelSmall,

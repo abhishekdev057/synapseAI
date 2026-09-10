@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.core.TimeUtils
 import com.sigmafusion.synapse.ui.components.BigTile
+import com.sigmafusion.synapse.ui.components.BrandOrb
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SectionCard
 import com.sigmafusion.synapse.ui.i18n.LocalStrings
@@ -112,6 +113,19 @@ fun HomeScreen(
                     Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    if (state.firstName.isNotBlank()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(bottom = 8.dp),
+                        ) {
+                            BrandOrb(size = 56.dp)
+                            Text(
+                                state.firstName,
+                                style = MaterialTheme.typography.headlineMedium,
+                            )
+                        }
+                    }
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(
                             TimeUtils.formatBigClock(nowEpoch),

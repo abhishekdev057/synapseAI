@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.domain.CognitiveDomain
+import com.sigmafusion.synapse.ui.components.Medallion
 import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.voice.rememberSpeaker
@@ -99,20 +100,24 @@ fun BirdAndBeastScreen(onDone: () -> Unit) {
                                     }
                                 }
                             },
-                            shape = RoundedCornerShape(18.dp),
+                            shape = RoundedCornerShape(20.dp),
                             color = if (hit) MaterialTheme.colorScheme.primaryContainer
-                            else MaterialTheme.colorScheme.surface,
-                            border = androidx.compose.foundation.BorderStroke(
-                                1.dp,
-                                if (hit) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.outline,
-                            ),
+                            else androidx.compose.ui.graphics.Color.Transparent,
+                            border = if (hit) androidx.compose.foundation.BorderStroke(
+                                2.dp, MaterialTheme.colorScheme.primary,
+                            ) else null,
                             modifier = Modifier
                                 .weight(1f)
                                 .aspectRatio(1f),
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                Text(tile.emoji, fontSize = 34.sp)
+                                if (hit) {
+                                    Text(tile.emoji, fontSize = 34.sp)
+                                } else {
+                                    Medallion(size = 56.dp) {
+                                        Text(tile.emoji, fontSize = 30.sp)
+                                    }
+                                }
                             }
                         }
                     }

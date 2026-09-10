@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sigmafusion.synapse.data.SynapseRepository
+import com.sigmafusion.synapse.ui.components.CelebrationBloom
 import com.sigmafusion.synapse.ui.components.LoadingBlock
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SecondaryButton
@@ -191,7 +192,7 @@ fun GameDoneView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimens.gap),
     ) {
-        Text("🌼", fontSize = 72.sp, modifier = Modifier.padding(top = 24.dp))
+        CelebrationBloom(modifier = Modifier.padding(top = 24.dp), size = 168.dp)
         Text(
             t.wellDoneToday(firstName),
             style = MaterialTheme.typography.headlineLarge,

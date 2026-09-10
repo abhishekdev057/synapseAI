@@ -1,6 +1,7 @@
 package com.sigmafusion.synapse.ui.screens.games
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sigmafusion.synapse.ui.components.CelebrationBloom
 import com.sigmafusion.synapse.ui.components.LoadingBlock
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SecondaryButton
@@ -139,8 +141,20 @@ private fun PlayingView(
                         .aspectRatio(1f)
                         .alpha(if (card.matched) 0.55f else 1f),
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(if (faceUp) card.symbol else "", fontSize = 44.sp)
+                    Box(
+                        Modifier.then(
+                            if (faceUp) Modifier
+                            else Modifier.background(
+                                androidx.compose.ui.graphics.Brush.radialGradient(
+                                    0f to androidx.compose.ui.graphics.Color.White,
+                                    0.7f to androidx.compose.ui.graphics.Color(0xFFF1F6FC),
+                                    1f to androidx.compose.ui.graphics.Color(0xFFE6EEF8),
+                                ),
+                            ),
+                        ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(if (faceUp) card.symbol else "", fontSize = 46.sp)
                     }
                 }
             }
@@ -175,7 +189,7 @@ private fun DoneView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimens.gap),
     ) {
-        Text("🌼", fontSize = 72.sp, modifier = Modifier.padding(top = 24.dp))
+        CelebrationBloom(modifier = Modifier.padding(top = 24.dp), size = 168.dp)
         Text(
             t.wellDoneToday(firstName),
             style = MaterialTheme.typography.headlineLarge,
