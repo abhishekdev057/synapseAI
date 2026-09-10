@@ -3,36 +3,52 @@ package com.sigmafusion.synapse.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /*
- * Palette — deep teal primary with terracotta + mustard accents that echo
- * North-East Indian textiles. Chosen for high contrast against an off-white
- * ground (never pure #FFFFFF, which glares for older eyes).
+ * Palette — "Cognitive Companion" theme.
+ * Forest-green primary actions, calm blue for secondary, warm red reserved for
+ * help/alerts, on a soft sky-tinted ground (never pure #FFFFFF, which glares
+ * for older eyes). Pastel tints echo North-East Indian textiles.
  */
 
 // Brand
-val Teal700 = Color(0xFF0F766E)
-val Teal600 = Color(0xFF12857B)
-val Teal200 = Color(0xFF6FD8CC)
-val Indigo = Color(0xFF3B3F8F)
-val Terracotta = Color(0xFFC1613B)
-val Mustard = Color(0xFFD9A441)
+val Green600 = Color(0xFF2C8A51) // primary
+val Green700 = Color(0xFF1F6E3E)
+val Green200 = Color(0xFFBFE4CC) // primary container (light)
+val Blue600 = Color(0xFF1F6CD0) // secondary / info
+val Navy700 = Color(0xFF163A63) // tertiary / headings
+val Mustard = Color(0xFFE08A1E)
+
+// Back-compat aliases (older references)
+val Teal700 = Green600
+val Teal600 = Green700
+val Teal200 = Green200
+val Indigo = Navy700
+val Terracotta = Blue600
+
+// Pastel card tints (light)
+val TintPeach = Color(0xFFFDECE3)
+val TintCream = Color(0xFFFBF3DE)
+val TintLavender = Color(0xFFEEE7FB)
+val TintMint = Color(0xFFE3F2EA)
+val TintSky = Color(0xFFE6F0FC)
+val TintRose = Color(0xFFFCE7EA)
 
 // Neutrals (light)
-val Ground = Color(0xFFF5F6F5)
+val Ground = Color(0xFFEDF4FB)
 val Surface = Color(0xFFFFFFFF)
-val SurfaceAlt = Color(0xFFEFF2F1)
-val InkPrimary = Color(0xFF16242B)
-val InkMuted = Color(0xFF4E5F66)
-val OutlineLight = Color(0xFFD7DEDC)
+val SurfaceAlt = Color(0xFFF1F6FC)
+val InkPrimary = Color(0xFF16324F)
+val InkMuted = Color(0xFF5C7086)
+val OutlineLight = Color(0xFFDCE6F2)
 
 // Neutrals (dark)
-val GroundDark = Color(0xFF0C1416)
-val SurfaceDark = Color(0xFF13211F)
-val SurfaceAltDark = Color(0xFF1B2C2A)
-val InkPrimaryDark = Color(0xFFE9EFEC)
-val InkMutedDark = Color(0xFFA7BBBD)
-val OutlineDark = Color(0xFF294038)
+val GroundDark = Color(0xFF0B1622)
+val SurfaceDark = Color(0xFF12212F)
+val SurfaceAltDark = Color(0xFF16283A)
+val InkPrimaryDark = Color(0xFFE7EEF6)
+val InkMutedDark = Color(0xFF9FB2C4)
+val OutlineDark = Color(0xFF24384C)
 
 // Semantic status
-val StatusGreen = Color(0xFF2F9E6B)
-val StatusAmber = Color(0xFFD9A441)
-val StatusRed = Color(0xFFCF4B3F)
+val StatusGreen = Color(0xFF2C8A51)
+val StatusAmber = Color(0xFFE08A1E)
+val StatusRed = Color(0xFFDF4436)

@@ -13,15 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Synapse — Cognitive Care for Elderly Dementia Patients (NER)",
+  title: "Synapse AI — A Cognitive Companion for Brighter Tomorrows",
   description:
-    "AI-based cognitive gaming and memory assistance platform for elderly dementia patients in the North Eastern Region of India.",
+    "AI-based cognitive gaming and memory assistance for elderly dementia patients in the North Eastern Region of India. Offline-first, voice-led, culturally rooted.",
+  icons: {
+    icon: "/synapse-logo.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      style={{ colorScheme: "light" }}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

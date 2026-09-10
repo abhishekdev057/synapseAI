@@ -15,14 +15,16 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
 private val LightColors = lightColorScheme(
-    primary = Teal700,
+    primary = Green600,
     onPrimary = Color.White,
-    primaryContainer = Teal200,
-    onPrimaryContainer = Color(0xFF08322E),
-    secondary = Terracotta,
+    primaryContainer = Green200,
+    onPrimaryContainer = Color(0xFF08321C),
+    secondary = Blue600,
     onSecondary = Color.White,
-    tertiary = Mustard,
-    onTertiary = Color(0xFF3A2A06),
+    secondaryContainer = Color(0xFFD7E6FB),
+    onSecondaryContainer = Color(0xFF0B2C52),
+    tertiary = Navy700,
+    onTertiary = Color.White,
     background = Ground,
     onBackground = InkPrimary,
     surface = Surface,
@@ -36,14 +38,16 @@ private val LightColors = lightColorScheme(
 )
 
 private val DarkColors = darkColorScheme(
-    primary = Teal200,
-    onPrimary = Color(0xFF06201D),
-    primaryContainer = Teal600,
-    onPrimaryContainer = Color(0xFFCDEFEA),
-    secondary = Color(0xFFE79070),
-    onSecondary = Color(0xFF3A1808),
-    tertiary = Mustard,
-    onTertiary = Color(0xFF3A2A06),
+    primary = Color(0xFF46B877),
+    onPrimary = Color(0xFF04140B),
+    primaryContainer = Green700,
+    onPrimaryContainer = Color(0xFFCDEFDA),
+    secondary = Color(0xFF7FB2F0),
+    onSecondary = Color(0xFF06213B),
+    secondaryContainer = Color(0xFF1B3A5C),
+    onSecondaryContainer = Color(0xFFD7E6FB),
+    tertiary = Color(0xFFB9CFEA),
+    onTertiary = Color(0xFF0C243E),
     background = GroundDark,
     onBackground = InkPrimaryDark,
     surface = SurfaceDark,
@@ -66,10 +70,13 @@ private val SynapseShapes = Shapes(
 
 @Composable
 fun SynapseTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    @Suppress("UNUSED_PARAMETER") darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colors = if (darkTheme) DarkColors else LightColors
+    // The Cognitive Companion look is a single bright, high-contrast theme —
+    // a deliberate accessibility choice for older eyes. DarkColors is kept for
+    // reference but not applied.
+    val colors = LightColors
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

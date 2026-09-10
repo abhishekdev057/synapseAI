@@ -12,7 +12,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * follows the real choice.
  */
 data class Strings(
-    val appName: String = "Synapse",
+    val appName: String = "Synapse AI",
     val home: String,
     val back: String,
     val settings: String,

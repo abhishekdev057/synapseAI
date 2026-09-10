@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Brain, Pill, Users } from "lucide-react";
+import { Brain, HeartHandshake, Pill, Users } from "lucide-react";
 import { ApkDownload } from "@/components/ApkDownload";
 import { Clock } from "@/components/patient/Clock";
 import { SpeakButton } from "@/components/patient/SpeakButton";
@@ -39,33 +39,48 @@ export default async function PatientHome({
     : fmt(t.greetingNoNext, { name: firstName });
 
   const NAV = [
-    { href: "/patient/games", icon: Brain, label: t.playAGame, tone: "bg-primary text-primary-fg" },
-    { href: "/patient/reminders", icon: Pill, label: t.myReminders, tone: "bg-surface border border-border" },
-    { href: "/patient/people", icon: Users, label: t.whoIsThis, tone: "bg-surface border border-border" },
+    {
+      href: "/patient/games",
+      icon: Brain,
+      label: t.playAGame,
+      tint: "bg-tint-peach",
+    },
+    {
+      href: "/patient/reminders",
+      icon: Pill,
+      label: t.myReminders,
+      tint: "bg-tint-mint",
+    },
+    {
+      href: "/patient/people",
+      icon: Users,
+      label: t.whoIsThis,
+      tint: "bg-tint-lavender",
+    },
   ];
 
   return (
-    <div className="space-y-8">
-      <section className="rounded-2xl border border-border bg-surface p-6">
+    <div className="space-y-6">
+      <section className="rounded-3xl border border-border bg-surface p-6 shadow-[0_1px_2px_rgba(22,58,99,0.04),0_8px_24px_rgba(22,58,99,0.06)]">
         <Clock />
         <div className="mt-5 flex justify-center">
           <SpeakButton text={spokenLine} lang={speechTag} label={t.readThisToMe} />
         </div>
       </section>
 
-      <section className="rounded-2xl border border-border bg-surface p-6">
-        <h2 className="text-xl font-semibold">{t.next}</h2>
+      <section className="rounded-3xl border border-border bg-tint-sky p-6">
+        <h2 className="text-xl font-bold text-navy">{t.next}</h2>
         {next ? (
           <div className="mt-3 flex items-center justify-between gap-4">
             <div>
-              <p className="text-2xl">{next.title}</p>
+              <p className="text-2xl font-semibold">{next.title}</p>
               <p className="text-lg text-muted">
                 {fmt(t.atTime, { time: fmtTime(next.scheduledFor) })}
               </p>
             </div>
             <Link
               href="/patient/reminders"
-              className="rounded-xl bg-primary px-6 py-4 text-lg font-semibold text-primary-fg"
+              className="rounded-2xl bg-primary px-7 py-4 text-lg font-bold text-primary-fg shadow-sm"
             >
               {t.open}
             </Link>
@@ -80,14 +95,23 @@ export default async function PatientHome({
           <Link
             key={n.href}
             href={n.href}
-            className={`flex items-center gap-4 rounded-2xl px-6 py-6 text-2xl font-semibold ${n.tone}`}
+            className={`flex items-center gap-4 rounded-3xl border border-border ${n.tint} px-6 py-6 text-2xl font-bold text-navy`}
           >
-            <n.icon className="h-9 w-9" strokeWidth={1.75} />
+            <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-sm">
+              <n.icon className="h-8 w-8 text-primary" strokeWidth={2} />
+            </span>
             {n.label}
           </Link>
         ))}
       </nav>
 
+      <Link
+        href="/patient/people"
+        className="flex items-center justify-center gap-3 rounded-3xl bg-status-red px-6 py-6 text-2xl font-extrabold text-white shadow-sm"
+      >
+        <HeartHandshake className="h-9 w-9" strokeWidth={2} />
+        I feel lost
+      </Link>
       <p className="text-center text-base text-muted">{t.feelLost}</p>
 
       <ApkDownload />

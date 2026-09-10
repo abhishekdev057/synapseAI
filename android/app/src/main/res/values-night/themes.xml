@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.Synapse" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@color/synapse_bg_dark</item>
-        <item name="android:statusBarColor">@color/synapse_bg_dark</item>
-        <item name="android:navigationBarColor">@color/synapse_bg_dark</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    <!-- Synapse ships a single bright theme; night mode matches the light one. -->
+    <style name="Theme.Synapse" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/synapse_bg_light</item>
+        <item name="android:statusBarColor">@color/synapse_bg_light</item>
+        <item name="android:navigationBarColor">@color/synapse_bg_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 </resources>

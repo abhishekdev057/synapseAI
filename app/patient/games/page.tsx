@@ -26,12 +26,22 @@ export default async function GamesList({
   const q = patientId ? `?p=${patientId}` : "";
   const { dict: t } = await resolvePatientLang();
 
+  const TINTS = [
+    "bg-tint-peach",
+    "bg-tint-cream",
+    "bg-tint-lavender",
+    "bg-tint-mint",
+    "bg-tint-sky",
+    "bg-tint-rose",
+  ];
+
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">{t.playAGame}</h1>
+      <h1 className="text-3xl font-bold text-navy">{t.playAGame}</h1>
       <ul className="space-y-4">
-        {GAMES.map((g) => {
+        {GAMES.map((g, i) => {
           const isPlayable = playable.has(g.key);
+          const tint = TINTS[i % TINTS.length];
           const inner = (
             <>
               <span className="text-4xl" aria-hidden>
@@ -51,12 +61,14 @@ export default async function GamesList({
               {isPlayable ? (
                 <Link
                   href={`/patient/games/${g.key.replace(/_/g, "-")}${q}`}
-                  className="flex items-center gap-4 rounded-2xl border border-primary bg-primary/5 p-5"
+                  className={`flex items-center gap-4 rounded-3xl border border-border ${tint} p-5`}
                 >
                   {inner}
                 </Link>
               ) : (
-                <div className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 opacity-70">
+                <div
+                  className={`flex items-center gap-4 rounded-3xl border border-border ${tint} p-5 opacity-60`}
+                >
                   {inner}
                 </div>
               )}
