@@ -512,4 +512,98 @@ Other scripts: `npm run build`, `npm run db:studio` (Drizzle Studio),
 7. Close on §10–11: everything the patient touches is designed to run offline and
    on-device, and the two "AI" pieces are pure functions that move to the phone
    unchanged.
+
+---
+
+## 18. Native Android patient app (`android/`)
+
+The web `/patient` routes are the reference implementation; the **shipping
+patient client is a native Kotlin + Jetpack Compose app** in `android/`, built
+offline-first with delta sync to `https://synapse.sigmafusion.in`.
+
+### Why native
+The problem statement needs offline operation, on-device voice, reliable local
+reminder alarms, and an interface tuned for an 80-year-old with tremor and low
+vision on a cheap Android tablet. A native app gives all four; a web view gives
+none reliably.
+
+### Stack
+| Concern | Choice |
+|---|---|
+| Language / UI | Kotlin 2.0, Jetpack Compose + Material 3 |
+| Min / target SDK | 26 (Android 8) / 35 |
+| Architecture | MVVM — Compose screens → `ViewModel` (StateFlow) → `SynapseRepository` → Room / Retrofit |
+| Local store | Room (`synapse.db`): patient, reminder, reminder_log, game_session, family_contact |
+| Remote | Retrofit + OkHttp + kotlinx.serialization against the Next.js API |
+| Settings | DataStore (patient id, server URL, language, TTS, last-sync) |
+| Background sync | WorkManager — periodic (3 h, connected) + one-shot after every local write |
+| Reminders | `AlarmManager` exact alarms → `ReminderReceiver` notification; re-armed on boot |
+| Voice | Android `TextToSpeech` (on-device); pre-recorded clips are the production plan for Tier-2/3 NER languages |
+| DI | Hand-rolled `AppContainer` (no Hilt — keeps the build lean) |
+
+### Offline-first + delta sync
+- **Every read comes from Room** via `Flow`, so the whole app works with the
+  radio off. Today's reminder occurrences are computed **on-device** from the
+  reminder rows + local logs, so tapping **Done** updates instantly.
+- **Every write goes to Room first** with `synced = false`, then a sync is
+  enqueued. `SynapseRepository.sync()` (also run by `SyncWorker`):
+  1. picks the patient from `/api/patients` on first run (falls back to a small
+     **bundled sample** so the app is never blank offline),
+  2. **pulls** patient + reminders + contacts,
+  3. **pushes** every queued `reminder_log` and `game_session`, marking each
+     `synced` with the server id it returns,
+  4. stamps `last_sync`.
+  Each remote call is wrapped in `runCatching`, so a flaky link still makes
+  partial progress.
+- A true `?since=` delta endpoint on the server is a listed TODO; today the pull
+  is a full refresh of the three small per-patient tables.
+
+### The adaptive engine travels unchanged
+`domain/AdaptiveDifficulty.kt` is a line-for-line port of the web
+`lib/adaptive.ts` (same 75–85 % flow-zone control loop, same hint penalty, same
+recency weights). Memory Lane calls `repo.recommendDifficulty()` before a round
+and `repo.recordRound()` after — both run fully offline; the round syncs later.
+
+### Screens
+`Home` (orientation: live clock, day/date, spoken greeting, next task, three big
+tiles) · `Games` (the seven-game catalogue, Memory Lane playable) · `Memory
+Lane` (adaptive matching game — no timer, no score, no fail state; gentle "Well
+done" + a collapsible caregiver note) · `Reminders` (large cards, **Done** /
+**Later**, **Hear**) · `Who is this?` (family photos + voice) · `Settings`
+(language chips, read-aloud toggle, server URL, **Sync now**, last-sync time).
+
+### Design system (`ui/theme/`)
+Elderly-first: type scale ~30 % above Material defaults and never below 16 sp,
+`bodyLarge` is Medium weight; minimum touch target 64 dp, primary buttons 76 dp;
+off-white ground (never pure `#FFFFFF`); teal primary with terracotta + mustard
+accents (NER textiles); full light **and** dark palettes.
+
+### Build & run
+```bash
+cd android
+# local.properties is auto-created here with sdk.dir; or set ANDROID_HOME
+./gradlew :app:assembleDebug        # -> app/build/outputs/apk/debug/app-debug.apk
+# then: adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+Or open `android/` in Android Studio and Run. The server URL defaults to
+`https://synapse.sigmafusion.in/` (`DEFAULT_BASE_URL` in `app/build.gradle.kts`)
+and is overridable in-app under Settings.
+
+### Package map (`android/app/src/main/java/com/sigmafusion/synapse/`)
+```
+SynapseApp.kt            Application — DI container, channels, first-run sync
+MainActivity.kt          single activity, splash, Compose host
+di/AppContainer.kt       hand-rolled dependency graph
+core/TimeUtils.kt        clock / ISO / today helpers
+domain/                  DomainCatalog, AdaptiveDifficulty (port), UI models
+data/local/              Room entities, DAOs, database, DataStore SettingsStore
+data/remote/             DTOs, SynapseApi (Retrofit), ApiProvider
+data/SynapseRepository   the single source of truth (offline-first)
+data/sync/               SyncWorker + SyncScheduler (WorkManager)
+notifications/           ReminderScheduler, ReminderReceiver, BootReceiver
+ui/theme/                Color, Type, Dimens, Theme
+ui/components/           SectionCard, PrimaryButton, BigTile, StatusPill, …
+ui/voice/                TextToSpeech wrapper + SpeakButton
+ui/SynapseNavHost.kt     routes + shared AppScaffold
+ui/screens/…             home / games / reminders / people / settings
 ```

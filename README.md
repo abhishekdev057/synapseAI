@@ -15,9 +15,9 @@ North Eastern Region (MDoNER). Category: Software. Theme: MedTech / HealthTech.
 A full-stack scaffold with **three role-based front-ends** on one database and
 one API:
 
-| Role | Route | Summary |
+| Role | Where | Summary |
 |------|-------|---------|
-| **Patient** | `/patient` | Voice-led, large-target home screen; adaptive cognitive game (**Memory Lane**); spoken reminders with big "Done" buttons; "Who is this?" family aid. No timers, no scores, no failure states. |
+| **Patient** | native Android app in [`android/`](android/) (web `/patient` is the reference) | Offline-first Kotlin + Compose app: voice-led large-target home; adaptive **Memory Lane** game; local reminder alarms with big "Done"; "Who is this?" family aid; delta sync to the server. No timers, no scores, no failure states. |
 | **Family caregiver** | `/caregiver` | Engagement + reminder adherence, plain-language cognitive status per domain, alert feed, reminder & contact management. |
 | **Clinician / ASHA** | `/clinician` | Prioritised patient list with a traffic-light status; per-patient trend charts, an auto-generated referral summary, and an alert feed. |
 
@@ -71,7 +71,8 @@ app/            Next.js routes — patient / caregiver / clinician / api
 db/             Drizzle schema + seed
 lib/            db client, queries, adaptive engine, decline detection, referral
 components/     shared UI + patient/ + dashboard/ component sets
-docs/           PROJECT_OVERVIEW.md (read this)
+android/        native Kotlin + Jetpack Compose patient app (offline-first)
+docs/           PROJECT_OVERVIEW.md (read this — §18 covers the Android app)
 ```
 
 ---
