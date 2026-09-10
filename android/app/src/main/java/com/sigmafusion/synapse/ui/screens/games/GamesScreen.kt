@@ -24,19 +24,24 @@ import androidx.compose.ui.unit.sp
 import com.sigmafusion.synapse.domain.GAME_CATALOG
 import com.sigmafusion.synapse.domain.GameInfo
 import com.sigmafusion.synapse.ui.components.ScreenColumn
+import com.sigmafusion.synapse.ui.i18n.LocalStrings
+import com.sigmafusion.synapse.ui.i18n.gameTitle
 import com.sigmafusion.synapse.ui.theme.Dimens
 
 @Composable
 fun GamesScreen(onPlayMemoryLane: () -> Unit) {
+    val t = LocalStrings.current
     ScreenColumn {
         GAME_CATALOG.forEach { game ->
             GameRow(
                 game = game,
+                title = t.gameTitle(game.key),
+                lockedLabel = t.locked,
                 onClick = { if (game.playable) onPlayMemoryLane() },
             )
         }
         Text(
-            "Only Memory Lane is playable here. The rest show the planned suite.",
+            t.onlyMemoryLanePlayable,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -46,7 +51,12 @@ fun GamesScreen(onPlayMemoryLane: () -> Unit) {
 }
 
 @Composable
-private fun GameRow(game: GameInfo, onClick: () -> Unit) {
+private fun GameRow(
+    game: GameInfo,
+    title: String,
+    lockedLabel: String,
+    onClick: () -> Unit,
+) {
     Surface(
         onClick = onClick,
         enabled = game.playable,
@@ -72,7 +82,7 @@ private fun GameRow(game: GameInfo, onClick: () -> Unit) {
             Text(game.emoji, fontSize = 34.sp)
             Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(game.title, style = MaterialTheme.typography.titleLarge)
+                Text(title, style = MaterialTheme.typography.titleLarge)
                 Text(
                     game.culturalTheme,
                     style = MaterialTheme.typography.bodyMedium,
@@ -83,7 +93,7 @@ private fun GameRow(game: GameInfo, onClick: () -> Unit) {
                 Spacer(Modifier.width(12.dp))
                 Icon(
                     Icons.Default.Lock,
-                    contentDescription = "Locked",
+                    contentDescription = lockedLabel,
                     modifier = Modifier.size(Dimens.iconSmall),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

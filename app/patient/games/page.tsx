@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Lock } from "lucide-react";
 import { GAMES, PLAYABLE_GAME_KEYS } from "@/lib/cognitive-domains";
 import { resolvePatientId } from "@/lib/demo";
+import { resolvePatientLang } from "@/lib/patient-lang";
 
 export const dynamic = "force-dynamic";
 
@@ -23,10 +24,11 @@ export default async function GamesList({
   const sp = await searchParams;
   const patientId = await resolvePatientId(sp);
   const q = patientId ? `?p=${patientId}` : "";
+  const { dict: t } = await resolvePatientLang();
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Play a game</h1>
+      <h1 className="text-3xl font-bold">{t.playAGame}</h1>
       <ul className="space-y-4">
         {GAMES.map((g) => {
           const isPlayable = playable.has(g.key);
@@ -39,7 +41,9 @@ export default async function GamesList({
                 <p className="text-2xl font-semibold">{g.title}</p>
                 <p className="text-base text-muted">{g.culturalTheme}</p>
               </div>
-              {!isPlayable && <Lock className="h-5 w-5 text-muted" />}
+              {!isPlayable && (
+                <Lock className="h-5 w-5 text-muted" aria-label={t.locked} />
+              )}
             </>
           );
           return (
@@ -60,10 +64,7 @@ export default async function GamesList({
           );
         })}
       </ul>
-      <p className="text-base text-muted">
-        Only <strong>Memory Lane</strong> is playable in this scaffold. The rest
-        show the planned suite.
-      </p>
+      <p className="text-base text-muted">{t.onlyMemoryLanePlayable}</p>
     </div>
   );
 }

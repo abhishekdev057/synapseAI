@@ -597,6 +597,24 @@ and at the bottom of `/patient`, so judges can install it straight from
 `synapse.sigmafusion.in`. Commit the two files in `public/downloads/` after a
 build so the deploy serves the current APK.
 
+### Language follows the Settings choice
+The patient's language selection drives the **whole interface**, not just voice:
+
+- **Android:** `ui/i18n/Strings.kt` is a string catalogue; `SynapseNavHost`
+  reads `repo.languageCode` (DataStore) and provides the right `Strings` object
+  through a `LocalStrings` composition local. Changing the language in Settings
+  re-renders every screen immediately. TTS locale follows the same choice.
+- **Web:** `lib/i18n.ts` holds the dictionaries; `lib/patient-lang.ts` resolves
+  the language per request from the `synapse_lang` cookie → patient's `language`
+  column → English. A `LanguageSwitcher` in the patient header sets the cookie
+  and refreshes.
+- **Reviewed translations:** English, Hindi, Assamese, Bengali, Nepali. The
+  other NER languages (Mizo, Meitei, Khasi, Bodo, Sikkimese) are wired and fall
+  back to English pending native-speaker strings — a short `stringsFor` / dict
+  entry each — while their **voice** already uses the closest locale. This is a
+  deliberate choice: shipping guessed translations at an NER-government
+  hackathon would be worse than an honest English fallback.
+
 ### Package map (`android/app/src/main/java/com/sigmafusion/synapse/`)
 ```
 SynapseApp.kt            Application — DI container, channels, first-run sync

@@ -39,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.ui.components.LoadingBlock
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SecondaryButton
+import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.theme.Dimens
 import com.sigmafusion.synapse.ui.voice.SpeakButton
@@ -95,19 +96,20 @@ private fun PlayingView(
             .padding(Dimens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(Dimens.gap),
     ) {
+        val t = LocalStrings.current
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                "Find the matching pictures.",
+                t.findMatchingPictures,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.weight(1f),
             )
             OutlinedButton(onClick = onHint) {
                 Icon(Icons.Default.Visibility, null, Modifier.padding(end = 8.dp))
-                Text("Show all")
+                Text(t.showAll)
             }
         }
 
@@ -145,7 +147,7 @@ private fun PlayingView(
         }
 
         Text(
-            "$pairsFound of $pairsTotal pairs found",
+            LocalStrings.current.pairsFound(pairsFound, pairsTotal),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -163,6 +165,7 @@ private fun DoneView(
     onPlayAgain: () -> Unit,
     onHome: () -> Unit,
 ) {
+    val t = LocalStrings.current
     var showDetail by remember { mutableStateOf(false) }
     Column(
         Modifier
@@ -174,24 +177,24 @@ private fun DoneView(
     ) {
         Text("🌼", fontSize = 72.sp, modifier = Modifier.padding(top = 24.dp))
         Text(
-            "Well done today${if (firstName.isNotBlank()) ", $firstName" else ""}.",
+            t.wellDoneToday(firstName),
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
         )
         Text(
-            "You finished the game. Your family and doctor can see that you played.",
+            t.youFinishedGame,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
         SpeakButton(
-            text = "Well done today${if (firstName.isNotBlank()) ", $firstName" else ""}. You finished the game.",
+            text = "${t.wellDoneToday(firstName)} ${t.youFinishedGame}",
             speaker = speaker,
-            label = "Hear this",
+            label = t.hearThis,
         )
 
-        PrimaryButton(text = "Play again", onClick = onPlayAgain, leadingIcon = Icons.Default.Refresh)
-        SecondaryButton(text = "Go home", onClick = onHome, leadingIcon = Icons.Default.Home)
+        PrimaryButton(text = t.playAgain, onClick = onPlayAgain, leadingIcon = Icons.Default.Refresh)
+        SecondaryButton(text = t.goHome, onClick = onHome, leadingIcon = Icons.Default.Home)
 
         Surface(
             onClick = { showDetail = !showDetail },
@@ -201,18 +204,18 @@ private fun DoneView(
         ) {
             Column(Modifier.padding(16.dp)) {
                 Text(
-                    "For your caregiver / doctor",
+                    t.forYourCaregiver,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold,
                 )
                 if (showDetail) {
                     Text(
-                        "Effective accuracy: ${(effectiveAccuracy * 100).toInt()}%.",
+                        t.effectiveAccuracy((effectiveAccuracy * 100).toInt()),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = 8.dp),
                     )
                     Text(
-                        "Adaptive engine: $reason",
+                        t.adaptiveEngine(reason),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

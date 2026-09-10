@@ -34,7 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.core.TimeUtils
 import com.sigmafusion.synapse.ui.components.BigTile
+import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.SectionCard
+import com.sigmafusion.synapse.ui.i18n.LocalStrings
+import com.sigmafusion.synapse.ui.i18n.partOfDayLabel
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.theme.Dimens
 import com.sigmafusion.synapse.ui.voice.SpeakButton
@@ -51,6 +54,7 @@ fun HomeScreen(
 ) {
     val vm: HomeViewModel = synapseViewModel { HomeViewModel(it) }
     val state by vm.state.collectAsStateWithLifecycle()
+    val t = LocalStrings.current
 
     val nowEpoch by produceState(initialValue = TimeUtils.now()) {
         while (true) {
@@ -60,7 +64,13 @@ fun HomeScreen(
     }
 
     val speaker = rememberSpeaker(state.speechTag)
-    val greeting = buildGreeting(state.firstName, state.nextReminderTitle, state.nextReminderTime)
+    val greeting = when {
+        state.firstName.isBlank() -> t.welcome
+        state.nextReminderTitle != null -> t.greetingWithNext(
+            state.firstName, state.nextReminderTitle!!, state.nextReminderTime.orEmpty(),
+        )
+        else -> t.greetingNoNext(state.firstName)
+    }
 
     LaunchedEffect(state.firstName, state.ttsEnabled) {
         if (state.ttsEnabled && state.firstName.isNotBlank()) {
@@ -73,10 +83,10 @@ fun HomeScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Synapse", style = MaterialTheme.typography.titleLarge) },
+                title = { Text(t.appName, style = MaterialTheme.typography.titleLarge) },
                 actions = {
                     IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Default.Settings, "Settings")
+                        Icon(Icons.Default.Settings, t.settings)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -116,34 +126,31 @@ fun HomeScreen(
                         style = MaterialTheme.typography.titleLarge,
                     )
                     Text(
-                        "It is ${TimeUtils.partOfDay(nowEpoch)} now.",
+                        t.itIsPartNow(t.partOfDayLabel(TimeUtils.partOfDay(nowEpoch))),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(Modifier.height(8.dp))
-                    SpeakButton(text = greeting, speaker = speaker, label = "Read this to me")
+                    SpeakButton(text = greeting, speaker = speaker, label = t.readThisToMe)
                 }
             }
 
             SectionCard {
-                Text("Next", style = MaterialTheme.typography.headlineMedium)
+                Text(t.next, style = MaterialTheme.typography.headlineMedium)
                 if (state.nextReminderTitle != null) {
                     Text(
                         state.nextReminderTitle!!,
                         style = MaterialTheme.typography.titleLarge,
                     )
                     Text(
-                        "at ${state.nextReminderTime}",
+                        t.atTime(state.nextReminderTime.orEmpty()),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    com.sigmafusion.synapse.ui.components.PrimaryButton(
-                        text = "Open",
-                        onClick = onOpenReminders,
-                    )
+                    PrimaryButton(text = t.open, onClick = onOpenReminders)
                 } else {
                     Text(
-                        "Nothing more to do today. Well done.",
+                        t.nothingMoreToday,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -151,31 +158,22 @@ fun HomeScreen(
             }
 
             BigTile(
-                label = "Play a game",
+                label = t.playAGame,
                 icon = Icons.Default.SportsEsports,
                 onClick = onOpenGames,
                 container = MaterialTheme.colorScheme.primary,
                 content = MaterialTheme.colorScheme.onPrimary,
             )
-            BigTile("My reminders", Icons.Default.MedicalServices, onOpenReminders)
-            BigTile("Who is this?", Icons.Default.Groups, onOpenPeople)
+            BigTile(t.myReminders, Icons.Default.MedicalServices, onOpenReminders)
+            BigTile(t.whoIsThis, Icons.Default.Groups, onOpenPeople)
 
             Text(
-                "If you feel lost, open Settings to call your family.",
+                t.feelLost,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-    }
-}
-
-private fun buildGreeting(firstName: String, nextTitle: String?, nextTime: String?): String {
-    if (firstName.isBlank()) return "Welcome to Synapse."
-    return if (nextTitle != null) {
-        "Hello $firstName. Your next task is $nextTitle at $nextTime."
-    } else {
-        "Hello $firstName. There are no more reminders today."
     }
 }

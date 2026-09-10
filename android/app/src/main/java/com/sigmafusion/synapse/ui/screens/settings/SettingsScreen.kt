@@ -75,19 +75,20 @@ class SettingsViewModel(private val repo: SynapseRepository) : ViewModel() {
 fun SettingsScreen() {
     val vm: SettingsViewModel = synapseViewModel { SettingsViewModel(it) }
     val s by vm.state.collectAsStateWithLifecycle()
+    val t = com.sigmafusion.synapse.ui.i18n.LocalStrings.current
     var urlField by remember(s.baseUrl) { mutableStateOf(s.baseUrl) }
 
     ScreenColumn {
         SectionCard {
-            Text("Patient", style = MaterialTheme.typography.titleLarge)
+            Text(t.patient, style = MaterialTheme.typography.titleLarge)
             Text(
-                s.patientName.ifBlank { "Not set — will load on next sync" },
+                s.patientName.ifBlank { t.patientNotSet },
                 style = MaterialTheme.typography.bodyLarge,
             )
         }
 
         SectionCard {
-            Text("Language", style = MaterialTheme.typography.titleLarge)
+            Text(t.language, style = MaterialTheme.typography.titleLarge)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 LANGUAGE_OPTIONS.forEach { opt ->
                     FilterChip(
@@ -106,9 +107,9 @@ fun SettingsScreen() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text("Read aloud", style = MaterialTheme.typography.titleLarge)
+                    Text(t.readAloud, style = MaterialTheme.typography.titleLarge)
                     Text(
-                        "Speak prompts and reminders on this device.",
+                        t.readAloudDesc,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -118,36 +119,38 @@ fun SettingsScreen() {
         }
 
         SectionCard {
-            Text("Sync server", style = MaterialTheme.typography.titleLarge)
+            Text(t.syncServer, style = MaterialTheme.typography.titleLarge)
             OutlinedTextField(
                 value = urlField,
                 onValueChange = { urlField = it },
-                label = { Text("Base URL") },
+                label = { Text(t.baseUrl) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
-            PrimaryButton(text = "Save server URL", onClick = { vm.setBaseUrl(urlField) })
+            PrimaryButton(text = t.saveServerUrl, onClick = { vm.setBaseUrl(urlField) })
             Text(
                 if (s.lastSyncEpoch == 0L) {
-                    "Not synced yet."
+                    t.notSyncedYet
                 } else {
-                    "Last synced ${TimeUtils.formatShortDate(s.lastSyncEpoch)} " +
-                        TimeUtils.formatClockTime(s.lastSyncEpoch)
+                    t.lastSyncedAt(
+                        "${TimeUtils.formatShortDate(s.lastSyncEpoch)} " +
+                            TimeUtils.formatClockTime(s.lastSyncEpoch),
+                    )
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             PrimaryButton(
-                text = if (s.syncing) "Syncing…" else "Sync now",
+                text = if (s.syncing) t.syncing else t.syncNow,
                 onClick = { vm.syncNow() },
                 enabled = !s.syncing,
             )
         }
 
         SectionCard {
-            Text("About", style = MaterialTheme.typography.titleLarge)
+            Text(t.about, style = MaterialTheme.typography.titleLarge)
             Text(
-                "Synapse ${BuildConfig.VERSION_NAME} · offline-first patient app.",
+                t.aboutText(BuildConfig.VERSION_NAME),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

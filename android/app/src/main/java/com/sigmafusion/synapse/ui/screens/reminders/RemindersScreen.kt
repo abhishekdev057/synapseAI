@@ -31,6 +31,7 @@ import com.sigmafusion.synapse.domain.ReminderStatus
 import com.sigmafusion.synapse.ui.components.EmptyBlock
 import com.sigmafusion.synapse.ui.components.PrimaryButton
 import com.sigmafusion.synapse.ui.components.ScreenColumn
+import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.theme.Dimens
 import com.sigmafusion.synapse.ui.voice.SpeakButton
@@ -63,9 +64,10 @@ fun RemindersScreen() {
     val vm: RemindersViewModel = synapseViewModel { RemindersViewModel(it) }
     val s by vm.state.collectAsStateWithLifecycle()
     val speaker = rememberSpeaker(s.speechTag)
+    val t = LocalStrings.current
 
     if (!s.loading && s.occurrences.isEmpty()) {
-        EmptyBlock("No reminders scheduled for today.")
+        EmptyBlock(t.noRemindersToday)
         return
     }
 
@@ -89,6 +91,7 @@ private fun ReminderCard(
     onLater: () -> Unit,
 ) {
     val done = occ.status == ReminderStatus.DONE
+    val t = LocalStrings.current
     Surface(
         shape = MaterialTheme.shapes.large,
         color = if (done) {
@@ -106,7 +109,7 @@ private fun ReminderCard(
                 Column(Modifier.weight(1f)) {
                     Text(occ.title, style = MaterialTheme.typography.titleLarge)
                     Text(
-                        "at ${occ.timeLabel}",
+                        t.atTime(occ.timeLabel),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -121,7 +124,7 @@ private fun ReminderCard(
                 SpeakButton(
                     text = "${occ.title}. ${occ.description ?: ""}",
                     speaker = speaker,
-                    label = "Hear",
+                    label = t.hear,
                 )
             }
 
@@ -134,7 +137,7 @@ private fun ReminderCard(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        "Done",
+                        t.done,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -142,7 +145,7 @@ private fun ReminderCard(
             } else {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     PrimaryButton(
-                        text = "Done",
+                        text = t.done,
                         onClick = onDone,
                         leadingIcon = Icons.Default.CheckCircle,
                         modifier = Modifier.weight(1f),
@@ -152,7 +155,7 @@ private fun ReminderCard(
                         modifier = Modifier.weight(0.6f),
                     ) {
                         Icon(Icons.Default.Schedule, null, Modifier.padding(end = 8.dp))
-                        Text("Later")
+                        Text(t.later)
                     }
                 }
             }

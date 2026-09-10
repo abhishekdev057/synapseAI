@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Eye, Home, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { SpeakButton } from "@/components/patient/SpeakButton";
+import { fmt, type Dict } from "@/lib/i18n";
 
 /* Culturally-themed picture set for Memory Lane (NER motifs). */
 const SYMBOLS = [
@@ -35,12 +36,14 @@ export function MemoryLane({
   patientId,
   patientName,
   speechTag,
+  dict: t,
   initialDifficulty,
   initialReason,
 }: {
   patientId: string;
   patientName: string;
   speechTag: string;
+  dict: Dict;
   initialDifficulty: number;
   initialReason: string;
 }) {
@@ -149,15 +152,15 @@ export function MemoryLane({
         <div className="text-6xl" aria-hidden>
           🌼
         </div>
-        <h1 className="text-3xl font-bold">Well done today, {patientName}.</h1>
-        <p className="text-xl text-muted">
-          You finished the game. Your family and doctor can see that you played.
-        </p>
+        <h1 className="text-3xl font-bold">
+          {fmt(t.wellDoneToday, { name: patientName })}
+        </h1>
+        <p className="text-xl text-muted">{t.youFinished}</p>
         <div className="flex justify-center">
           <SpeakButton
-            text={`Well done today, ${patientName}. You finished the game.`}
+            text={`${fmt(t.wellDoneToday, { name: patientName })} ${t.youFinished}`}
             lang={speechTag}
-            label="Hear this"
+            label={t.hearThis}
           />
         </div>
 
@@ -169,19 +172,19 @@ export function MemoryLane({
             }}
             className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-6 text-2xl font-semibold text-primary-fg"
           >
-            <RotateCcw className="h-7 w-7" /> Play again
+            <RotateCcw className="h-7 w-7" /> {t.playAgain}
           </button>
           <Link
             href="/patient"
             className="flex items-center justify-center gap-2 rounded-2xl border border-border px-6 py-5 text-xl font-medium"
           >
-            <Home className="h-6 w-6" /> Go home
+            <Home className="h-6 w-6" /> {t.goHome}
           </Link>
         </div>
 
         <details className="mt-4 rounded-xl border border-border bg-surface p-4 text-left text-sm text-muted">
           <summary className="cursor-pointer font-medium">
-            For your caregiver / doctor
+            {t.forYourCaregiver}
           </summary>
           <p className="mt-2">
             Effective accuracy: {(adaptive.effectiveAccuracy * 100).toFixed(0)}%.
@@ -202,12 +205,10 @@ export function MemoryLane({
           onClick={hint}
           className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-base font-medium"
         >
-          <Eye className="h-5 w-5" /> Show all
+          <Eye className="h-5 w-5" /> {t.showAll}
         </button>
       </div>
-      <p className="text-lg text-muted">
-        Find the two cards that match. Take your time.
-      </p>
+      <p className="text-lg text-muted">{t.findTakeYourTime}</p>
 
       <div className={`grid ${cols} gap-3`}>
         {deck.map((c) => {
@@ -230,7 +231,7 @@ export function MemoryLane({
       </div>
 
       <p className="text-center text-lg text-muted">
-        {matchedCount} of {pairs} pairs found
+        {fmt(t.pairsFound, { a: matchedCount, b: pairs })}
       </p>
     </div>
   );

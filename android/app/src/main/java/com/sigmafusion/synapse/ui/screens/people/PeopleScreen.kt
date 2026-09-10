@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import com.sigmafusion.synapse.data.SynapseRepository
 import com.sigmafusion.synapse.domain.FamilyMember
 import com.sigmafusion.synapse.ui.components.EmptyBlock
+import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.theme.Dimens
 import com.sigmafusion.synapse.ui.voice.SpeakButton
@@ -57,9 +58,10 @@ fun PeopleScreen() {
     val vm: PeopleViewModel = synapseViewModel { PeopleViewModel(it) }
     val s by vm.state.collectAsStateWithLifecycle()
     val speaker = rememberSpeaker(s.speechTag)
+    val t = LocalStrings.current
 
     if (!s.loading && s.members.isEmpty()) {
-        EmptyBlock("No family added yet. A caregiver can add them from the family dashboard.")
+        EmptyBlock(t.noFamilyYet)
         return
     }
 
@@ -80,7 +82,8 @@ private fun MemberCard(
     member: FamilyMember,
     speaker: com.sigmafusion.synapse.ui.voice.Speaker,
 ) {
-    val line = "This is ${member.name}, your ${member.relationship}. ${member.notes ?: ""}"
+    val t = LocalStrings.current
+    val line = t.thisIsPerson(member.name, member.relationship, member.notes ?: "")
     Surface(
         shape = MaterialTheme.shapes.large,
         color = MaterialTheme.colorScheme.surface,
@@ -139,7 +142,7 @@ private fun MemberCard(
                     textAlign = TextAlign.Center,
                 )
             }
-            SpeakButton(text = line, speaker = speaker, label = "Hear")
+            SpeakButton(text = line, speaker = speaker, label = t.hear)
         }
     }
 }
