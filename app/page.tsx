@@ -100,22 +100,6 @@ export default function Home() {
           </div>
         ))}
       </section>
-
-      <section className="mt-10 rounded-3xl border border-border bg-surface p-6">
-        <h3 className="text-sm font-bold text-navy">What is in this scaffold</h3>
-        <ul className="mt-3 grid gap-2 text-sm text-muted sm:grid-cols-2">
-          <li>• Next.js 16 App Router + TypeScript + Tailwind v4</li>
-          <li>• Neon Postgres via Drizzle ORM (11 tables)</li>
-          <li>• Adaptive difficulty engine (75–85% flow zone)</li>
-          <li>• Cognitive decline detection (trend slope + level shift)</li>
-          <li>• REST API under <code>/api</code> for the patient PWA</li>
-          <li>• Seeded demo data — 3 patients, ~3 weeks of history</li>
-        </ul>
-        <p className="mt-4 text-xs text-muted">
-          See <code>docs/PROJECT_OVERVIEW.md</code> for the full mentor-facing
-          write-up.
-        </p>
-      </section>
     </main>
   );
 }
