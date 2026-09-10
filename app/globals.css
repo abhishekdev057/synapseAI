@@ -1,58 +1,82 @@
 @import "tailwindcss";
 
 /*
-  Synapse design tokens.
-  Primary: deep teal / indigo. Accents: terracotta + mustard (NER textiles).
+  Synapse design tokens — "Cognitive Companion" theme.
+  Soft sky ground, forest-green primary actions, calm blue for secondary,
+  warm red reserved for help/alerts. Pastel card tints echo NER textiles.
 */
 :root {
-  --background: #f7f8f7;
+  --background: #eef4fb;
+  --background-grad-from: #f6faff;
+  --background-grad-to: #e4eefb;
   --surface: #ffffff;
-  --foreground: #17242b;
-  --muted: #5b6b73;
-  --border: #e3e7e6;
+  --surface-2: #f5f8fc;
+  --foreground: #16324f;
+  --muted: #5c7086;
+  --border: #dce6f2;
 
-  --primary: #0f766e; /* teal-700 */
+  --primary: #2c8a51; /* forest green — primary actions */
   --primary-fg: #ffffff;
-  --indigo: #3b3f8f;
-  --terracotta: #c1613b;
-  --mustard: #d9a441;
+  --navy: #163a63; /* wordmark + headings */
+  --info: #1f6cd0; /* calm blue — secondary actions */
+  --info-fg: #ffffff;
 
-  --green: #2f9e6b;
-  --amber: #d9a441;
-  --red: #cf4b3f;
-}
+  --indigo: #163a63;
+  --terracotta: #c2603a;
+  --mustard: #e08a1e;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c1416;
-    --surface: #121e21;
-    --foreground: #e8eeec;
-    --muted: #9bb0b3;
-    --border: #223236;
-    --primary: #2dd4bf;
-    --primary-fg: #06201d;
-  }
+  --green: #2c8a51;
+  --amber: #e08a1e;
+  --red: #df4436;
+
+  /* Pastel card tints */
+  --tint-peach: #fdece3;
+  --tint-cream: #fbf3de;
+  --tint-lavender: #eee7fb;
+  --tint-mint: #e3f2ea;
+  --tint-sky: #e6f0fc;
+  --tint-rose: #fce7ea;
+
+  /* The Cognitive Companion look is a single bright, high-contrast theme —
+     a deliberate accessibility choice for older eyes. No dark inversion. */
+  color-scheme: light;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-fg: var(--primary-fg);
+  --color-navy: var(--navy);
+  --color-info: var(--info);
+  --color-info-fg: var(--info-fg);
   --color-indigo: var(--indigo);
   --color-terracotta: var(--terracotta);
   --color-mustard: var(--mustard);
   --color-status-green: var(--green);
   --color-status-amber: var(--amber);
   --color-status-red: var(--red);
+  --color-tint-peach: var(--tint-peach);
+  --color-tint-cream: var(--tint-cream);
+  --color-tint-lavender: var(--tint-lavender);
+  --color-tint-mint: var(--tint-mint);
+  --color-tint-sky: var(--tint-sky);
+  --color-tint-rose: var(--tint-rose);
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
+  background-image: linear-gradient(
+    180deg,
+    var(--background-grad-from) 0%,
+    var(--background-grad-to) 100%
+  );
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -64,4 +88,15 @@ body {
 }
 .patient-scope button {
   min-height: 4rem;
+}
+
+/* Shared soft card + pill helpers used across web surfaces. */
+.card-soft {
+  border-radius: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(22, 58, 99, 0.04), 0 8px 24px rgba(22, 58, 99, 0.06);
+}
+.pill {
+  border-radius: 9999px;
 }

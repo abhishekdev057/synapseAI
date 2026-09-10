@@ -29,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sigmafusion.synapse.core.TimeUtils
@@ -40,6 +39,10 @@ import com.sigmafusion.synapse.ui.i18n.LocalStrings
 import com.sigmafusion.synapse.ui.i18n.partOfDayLabel
 import com.sigmafusion.synapse.ui.screens.synapseViewModel
 import com.sigmafusion.synapse.ui.theme.Dimens
+import com.sigmafusion.synapse.ui.theme.StatusRed
+import com.sigmafusion.synapse.ui.theme.TintLavender
+import com.sigmafusion.synapse.ui.theme.TintMint
+import com.sigmafusion.synapse.ui.theme.TintPeach
 import com.sigmafusion.synapse.ui.voice.SpeakButton
 import com.sigmafusion.synapse.ui.voice.rememberSpeaker
 import kotlinx.coroutines.delay
@@ -161,18 +164,29 @@ fun HomeScreen(
                 label = t.playAGame,
                 icon = Icons.Default.SportsEsports,
                 onClick = onOpenGames,
-                container = MaterialTheme.colorScheme.primary,
-                content = MaterialTheme.colorScheme.onPrimary,
+                container = TintPeach,
+                content = MaterialTheme.colorScheme.onSurface,
             )
-            BigTile(t.myReminders, Icons.Default.MedicalServices, onOpenReminders)
-            BigTile(t.whoIsThis, Icons.Default.Groups, onOpenPeople)
-
-            Text(
-                t.feelLost,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
+            BigTile(
+                label = t.myReminders,
+                icon = Icons.Default.MedicalServices,
+                onClick = onOpenReminders,
+                container = TintMint,
+                content = MaterialTheme.colorScheme.onSurface,
+            )
+            BigTile(
+                label = t.whoIsThis,
+                icon = Icons.Default.Groups,
+                onClick = onOpenPeople,
+                container = TintLavender,
+                content = MaterialTheme.colorScheme.onSurface,
+            )
+            BigTile(
+                label = t.feelLost,
+                icon = Icons.Default.Groups,
+                onClick = onOpenPeople,
+                container = StatusRed,
+                content = androidx.compose.ui.graphics.Color.White,
             )
         }
     }

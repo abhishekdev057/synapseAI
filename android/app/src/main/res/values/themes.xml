@@ -9,8 +9,8 @@
     </style>
 
     <style name="Theme.Synapse.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/synapse_teal</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenBackground">@color/synapse_icon_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/synapse_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Synapse</item>
     </style>
 
