@@ -131,12 +131,17 @@ export function WordGarden(props: GameScreenProps) {
       onPlayAgain={handlePlayAgain}
     >
       <div className="space-y-6">
-        <div className="flex flex-col items-center gap-3 rounded-3xl border border-border bg-tint-sky p-8">
-          <span className="text-8xl" aria-hidden>
+        <div className="sy-card flex flex-col items-center gap-3 bg-gradient-to-br from-tint-sky to-tint-lavender p-8">
+          <span
+            className="sy-medallion sy-pop-in flex h-40 w-40 items-center justify-center text-[5.5rem]"
+            aria-hidden
+          >
             {pic.emoji}
           </span>
           {solved && (
-            <span className="text-3xl font-bold text-primary">{pic.word}</span>
+            <span className="sy-pop-in text-3xl font-extrabold text-primary">
+              {pic.word}
+            </span>
           )}
         </div>
 
@@ -149,7 +154,7 @@ export function WordGarden(props: GameScreenProps) {
           <p className="text-base text-muted">{t.orTapAnswer}</p>
         </div>
 
-        <div className="grid gap-3">
+        <div className="sy-stagger grid gap-3">
           {options.map((word) => {
             const chosen = picked === word;
             const right = chosen && word.toLowerCase() === pic.word.toLowerCase();
@@ -158,12 +163,12 @@ export function WordGarden(props: GameScreenProps) {
               <div key={word} className="flex items-stretch gap-2">
                 <button
                   onClick={() => submit(word)}
-                  className={`flex-1 rounded-2xl border-2 px-6 py-5 text-left text-2xl font-semibold transition ${
+                  className={`sy-press flex-1 rounded-2xl border-2 px-6 py-5 text-left text-2xl font-bold transition ${
                     right
-                      ? "border-primary bg-primary/15 text-primary"
+                      ? "sy-pop-in border-primary bg-primary/15 text-primary shadow-[0_8px_22px_rgba(44,138,81,0.2)]"
                       : wrong
                         ? "border-status-red bg-status-red/10"
-                        : "border-border bg-surface active:scale-95"
+                        : "sy-medallion border-transparent"
                   }`}
                 >
                   {word}
@@ -173,7 +178,7 @@ export function WordGarden(props: GameScreenProps) {
                   lang={speechTag}
                   label={t.hear}
                   iconOnly
-                  className="inline-flex items-center rounded-2xl border border-border bg-surface px-4 text-muted"
+                  className="sy-press inline-flex items-center rounded-2xl border border-border bg-surface px-4 text-muted"
                 />
               </div>
             );

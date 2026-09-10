@@ -1,9 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Eye, Home, RotateCcw } from "lucide-react";
-import Link from "next/link";
-import { SpeakButton } from "@/components/patient/SpeakButton";
+import { Eye } from "lucide-react";
+import { GameDone } from "@/components/patient/games/GameDone";
 import { fmt, type Dict } from "@/lib/i18n";
 
 /* Culturally-themed picture set for Memory Lane (NER motifs). */
@@ -148,69 +147,41 @@ export function MemoryLane({
 
   if (phase === "done") {
     return (
-      <div className="space-y-6 text-center">
-        <div className="text-6xl" aria-hidden>
-          🌼
-        </div>
-        <h1 className="text-3xl font-bold">
-          {fmt(t.wellDoneToday, { name: patientName })}
-        </h1>
-        <p className="text-xl text-muted">{t.youFinished}</p>
-        <div className="flex justify-center">
-          <SpeakButton
-            text={`${fmt(t.wellDoneToday, { name: patientName })} ${t.youFinished}`}
-            lang={speechTag}
-            label={t.hearThis}
-          />
-        </div>
-
-        <div className="flex flex-col gap-3 pt-4">
-          <button
-            onClick={() => {
-              setDifficulty(adaptive.next);
-              resetRound(adaptive.next);
-            }}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-6 text-2xl font-semibold text-primary-fg"
-          >
-            <RotateCcw className="h-7 w-7" /> {t.playAgain}
-          </button>
-          <Link
-            href="/patient"
-            className="flex items-center justify-center gap-2 rounded-2xl border border-border px-6 py-5 text-xl font-medium"
-          >
-            <Home className="h-6 w-6" /> {t.goHome}
-          </Link>
-        </div>
-
-        <details className="mt-4 rounded-xl border border-border bg-surface p-4 text-left text-sm text-muted">
-          <summary className="cursor-pointer font-medium">
-            {t.forYourCaregiver}
-          </summary>
-          <p className="mt-2">
-            Effective accuracy: {(adaptive.effectiveAccuracy * 100).toFixed(0)}%.
-          </p>
-          <p className="mt-1">Adaptive engine: {adaptive.reason}</p>
-        </details>
-      </div>
+      <GameDone
+        patientName={patientName}
+        speechTag={speechTag}
+        dict={t}
+        adaptive={{
+          next: adaptive.next,
+          reason: adaptive.reason,
+          effectiveAccuracy: adaptive.effectiveAccuracy,
+        }}
+        onPlayAgain={() => {
+          setDifficulty(adaptive.next);
+          resetRound(adaptive.next);
+        }}
+      />
     );
   }
 
   const cols = pairs <= 4 ? "grid-cols-2" : pairs <= 6 ? "grid-cols-3" : "grid-cols-4";
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Memory Lane</h1>
+    <div className="sy-fade-rise space-y-6">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-[1.75rem] font-bold text-navy">Memory Lane</h1>
         <button
           onClick={hint}
-          className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-base font-medium"
+          className="sy-press inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-base font-medium"
         >
           <Eye className="h-5 w-5" /> {t.showAll}
         </button>
       </div>
-      <p className="text-lg text-muted">{t.findTakeYourTime}</p>
+      <p className="rounded-2xl bg-surface/60 p-4 text-lg text-muted">
+        {t.findTakeYourTime}
+      </p>
 
-      <div className={`grid ${cols} gap-3`}>
+      <div className={`sy-stagger grid ${cols} gap-3`}>
         {deck.map((c) => {
           const isUp = showAll || c.matched || flipped.includes(c.uid);
           return (
@@ -218,11 +189,13 @@ export function MemoryLane({
               key={c.uid}
               onClick={() => onFlip(c.uid)}
               aria-label={isUp ? c.symbol : "hidden card"}
-              className={`flex aspect-square items-center justify-center rounded-2xl border text-5xl transition ${
+              className={`sy-press flex aspect-square items-center justify-center rounded-3xl border-2 text-5xl transition ${
                 isUp
-                  ? "border-primary bg-primary/5"
-                  : "border-border bg-surface active:scale-95"
-              } ${c.matched ? "opacity-60" : ""}`}
+                  ? "border-primary bg-primary/5 shadow-[0_8px_24px_rgba(44,138,81,0.18)]"
+                  : "sy-medallion border-transparent"
+              } ${c.matched ? "opacity-55" : ""} ${
+                isUp && !c.matched ? "sy-pop-in" : ""
+              }`}
             >
               <span aria-hidden>{isUp ? c.symbol : ""}</span>
             </button>
@@ -230,7 +203,7 @@ export function MemoryLane({
         })}
       </div>
 
-      <p className="text-center text-lg text-muted">
+      <p className="text-center text-lg font-medium text-muted">
         {fmt(t.pairsFound, { a: matchedCount, b: pairs })}
       </p>
     </div>

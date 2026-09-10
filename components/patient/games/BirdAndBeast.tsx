@@ -117,7 +117,7 @@ export function BirdAndBeast(props: GameScreenProps) {
       onPlayAgain={handlePlayAgain}
     >
       <div className="space-y-5">
-        <div className={`grid ${cols} gap-2.5`}>
+        <div className={`sy-stagger grid ${cols} gap-2.5`}>
           {tiles.map((tile) => {
             const hit = found.has(tile.id);
             return (
@@ -125,21 +125,23 @@ export function BirdAndBeast(props: GameScreenProps) {
                 key={tile.id}
                 onClick={() => tap(tile)}
                 aria-label={hit ? "found" : "animal"}
-                className={`relative flex aspect-square items-center justify-center rounded-2xl border text-4xl transition ${
+                className={`sy-press relative flex aspect-square items-center justify-center rounded-3xl border-2 text-[2.2rem] transition ${
                   hit
-                    ? "border-primary bg-primary/15"
-                    : "border-border bg-surface active:scale-95"
-                } ${buzz === tile.id ? "animate-[pulse_0.4s] border-status-red" : ""}`}
+                    ? "sy-pop-in border-primary bg-primary/15 shadow-[0_8px_22px_rgba(44,138,81,0.22)]"
+                    : "sy-medallion border-transparent"
+                } ${buzz === tile.id ? "animate-[pulse_0.4s] !border-status-red" : ""}`}
               >
                 <span aria-hidden>{tile.emoji}</span>
                 {hit && (
-                  <Check className="absolute right-1 top-1 h-5 w-5 text-primary" />
+                  <span className="absolute -right-1.5 -top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-fg shadow">
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                  </span>
                 )}
               </button>
             );
           })}
         </div>
-        <p className="text-center text-lg text-muted">
+        <p className="text-center text-lg font-medium text-muted">
           {fmt(t.roundProgress, { a: found.size, b: targetCount })}
         </p>
       </div>

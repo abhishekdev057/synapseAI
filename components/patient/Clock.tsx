@@ -16,7 +16,7 @@ export function Clock() {
   }, []);
 
   if (!now) {
-    return <div className="h-24" aria-hidden />;
+    return <div className="h-28" aria-hidden />;
   }
 
   const time = now.toLocaleTimeString("en-IN", {
@@ -38,9 +38,11 @@ export function Clock() {
 
   return (
     <div className="text-center">
-      <div className="text-6xl font-bold tracking-tight tabular-nums">{time}</div>
-      <div className="mt-2 text-2xl">{date}</div>
-      <div className="mt-1 text-xl text-muted">It is {partOfDay} now.</div>
+      <div className="sy-pop-in text-[3.5rem] font-extrabold leading-none tracking-tight tabular-nums text-navy">
+        {time}
+      </div>
+      <div className="mt-3 text-2xl font-medium">{date}</div>
+      <div className="mt-1 text-lg text-muted">It is {partOfDay} now.</div>
     </div>
   );
 }

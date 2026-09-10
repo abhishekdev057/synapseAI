@@ -125,13 +125,13 @@ export function MarketBasket(props: GameScreenProps) {
       onPlayAgain={handlePlayAgain}
     >
       {step === "study" ? (
-        <div className="space-y-5">
-          <div className="rounded-3xl border border-border bg-tint-cream p-5">
-            <p className="mb-3 text-lg font-semibold">{t.thingsToBuy}</p>
-            <ul className="space-y-2">
+        <div className="sy-fade-rise space-y-5">
+          <div className="sy-card bg-tint-cream p-6">
+            <p className="mb-4 text-xl font-bold text-navy">{t.thingsToBuy}</p>
+            <ul className="sy-stagger space-y-3">
               {list.map((g) => (
-                <li key={g.name} className="flex items-center gap-3 text-xl">
-                  <span className="text-3xl" aria-hidden>
+                <li key={g.name} className="flex items-center gap-4 text-xl font-medium">
+                  <span className="sy-medallion inline-flex h-12 w-12 items-center justify-center text-2xl" aria-hidden>
                     {g.emoji}
                   </span>
                   {g.name}
@@ -148,15 +148,15 @@ export function MarketBasket(props: GameScreenProps) {
             />
             <button
               onClick={goShopping}
-              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-4 text-xl font-semibold text-primary-fg"
+              className="sy-press inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-4 text-xl font-bold text-primary-fg shadow-[0_10px_28px_rgba(44,138,81,0.28)]"
             >
               <ShoppingBasket className="h-6 w-6" /> {t.goToMarket}
             </button>
           </div>
         </div>
       ) : (
-        <div className="space-y-5">
-          <div className="grid grid-cols-3 gap-3">
+        <div className="sy-fade-rise space-y-5">
+          <div className="sy-stagger grid grid-cols-3 gap-3">
             {stall.map((g) => {
               const picked = chosen.has(g.name);
               const reveal = showList && wanted.has(g.name);
@@ -165,16 +165,18 @@ export function MarketBasket(props: GameScreenProps) {
                   key={g.name}
                   onClick={() => toggle(g.name)}
                   aria-pressed={picked}
-                  className={`relative flex aspect-square flex-col items-center justify-center gap-1 rounded-2xl border text-4xl transition ${
+                  className={`sy-press relative flex aspect-square flex-col items-center justify-center gap-1.5 rounded-3xl border-2 text-4xl transition ${
                     picked
-                      ? "border-primary bg-primary/10"
-                      : "border-border bg-surface active:scale-95"
-                  } ${reveal ? "ring-2 ring-mustard" : ""}`}
+                      ? "border-primary bg-primary/10 shadow-[0_8px_22px_rgba(44,138,81,0.2)]"
+                      : "sy-medallion border-transparent"
+                  } ${reveal ? "!border-mustard ring-4 ring-mustard/30" : ""}`}
                 >
                   <span aria-hidden>{g.emoji}</span>
-                  <span className="text-sm font-medium">{g.name}</span>
+                  <span className="text-sm font-semibold">{g.name}</span>
                   {picked && (
-                    <Check className="absolute right-1 top-1 h-5 w-5 text-primary" />
+                    <span className="absolute -right-1.5 -top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-fg shadow">
+                      <Check className="h-4 w-4" strokeWidth={3} />
+                    </span>
                   )}
                 </button>
               );
@@ -183,13 +185,13 @@ export function MarketBasket(props: GameScreenProps) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
               onClick={peek}
-              className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-base font-medium"
+              className="sy-press inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-base font-medium"
             >
               <Eye className="h-5 w-5" /> {t.showAgain}
             </button>
             <button
               onClick={done}
-              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-4 text-xl font-semibold text-primary-fg"
+              className="sy-press inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-4 text-xl font-bold text-primary-fg shadow-[0_10px_28px_rgba(44,138,81,0.28)]"
             >
               <Check className="h-6 w-6" /> {t.done}
             </button>

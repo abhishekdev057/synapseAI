@@ -17,8 +17,8 @@ export default async function PatientReminders({
   const occurrences = await getTodayReminders(patient.id);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">{t.todaysReminders}</h1>
+    <div className="sy-fade-rise space-y-6">
+      <h1 className="text-3xl font-bold text-navy">{t.todaysReminders}</h1>
       <ReminderList
         patientId={patient.id}
         speechTag={speechTag}

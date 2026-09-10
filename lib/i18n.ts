@@ -15,6 +15,8 @@ export const LANG_COOKIE = "synapse_lang";
 
 const en: Dict = {
   readThisToMe: "Read this to me",
+  hello: "Hello",
+  iFeelLost: "I feel lost",
   next: "Next",
   open: "Open",
   nothingMoreToday: "Nothing more to do today. Well done.",
@@ -107,6 +109,8 @@ const en: Dict = {
 const hi: Dict = {
   ...en,
   readThisToMe: "यह मुझे पढ़कर सुनाओ",
+  hello: "नमस्ते",
+  iFeelLost: "मैं भ्रमित हूँ",
   next: "अगला",
   open: "खोलें",
   nothingMoreToday: "आज और कुछ नहीं करना है। बहुत बढ़िया।",

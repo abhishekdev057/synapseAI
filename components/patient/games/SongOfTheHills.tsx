@@ -154,19 +154,30 @@ export function SongOfTheHills(props: GameScreenProps) {
       onPlayAgain={handlePlayAgain}
     >
       <div className="space-y-6">
-        <div className="rounded-3xl border border-border bg-tint-mint p-6 text-2xl leading-relaxed">
-          {verse.before}{" "}
-          <span className="mx-1 inline-block min-w-24 rounded-lg border-b-4 border-primary px-2 text-center font-bold text-primary">
-            {picked === verse.answer ? verse.answer : "____"}
-          </span>{" "}
-          {verse.after}
+        <div className="sy-card bg-gradient-to-br from-tint-mint to-tint-sky p-7 text-2xl leading-relaxed">
+          <span className="text-4xl" aria-hidden>
+            🎵
+          </span>
+          <p className="mt-3">
+            {verse.before}{" "}
+            <span
+              className={`mx-1 inline-block min-w-24 rounded-lg px-2 text-center font-bold transition-colors ${
+                picked === verse.answer
+                  ? "bg-primary/15 text-primary"
+                  : "border-b-4 border-dashed border-primary/60 text-primary/50"
+              }`}
+            >
+              {picked === verse.answer ? verse.answer : "    "}
+            </span>{" "}
+            {verse.after}
+          </p>
         </div>
 
         <div className="flex justify-center">
           <SpeakButton text={lineText} lang={speechTag} label={t.hearTheLine} />
         </div>
 
-        <div className="grid gap-3">
+        <div className="sy-stagger grid gap-3">
           {options.map((word) => {
             const chosen = picked === word;
             const right = chosen && word === verse.answer;
@@ -175,12 +186,12 @@ export function SongOfTheHills(props: GameScreenProps) {
               <button
                 key={word}
                 onClick={() => choose(word)}
-                className={`rounded-2xl border-2 px-6 py-5 text-2xl font-semibold transition ${
+                className={`sy-press rounded-2xl border-2 px-6 py-5 text-2xl font-bold transition ${
                   right
-                    ? "border-primary bg-primary/15 text-primary"
+                    ? "sy-pop-in border-primary bg-primary/15 text-primary shadow-[0_8px_22px_rgba(44,138,81,0.2)]"
                     : wrong
                       ? "border-status-red bg-status-red/10"
-                      : "border-border bg-surface active:scale-95"
+                      : "sy-medallion border-transparent"
                 }`}
               >
                 {word}

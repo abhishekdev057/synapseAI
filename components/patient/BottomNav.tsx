@@ -17,7 +17,7 @@ export function PatientBottomNav() {
   const pathname = usePathname();
   return (
     <nav className="sticky bottom-0 z-30 border-t border-border bg-surface/95 backdrop-blur">
-      <ul className="mx-auto flex w-full max-w-3xl items-stretch justify-between px-2">
+      <ul className="mx-auto flex w-full max-w-3xl items-stretch justify-between px-2 py-1.5">
         {ITEMS.map((it) => {
           const active = it.exact
             ? pathname === it.href
@@ -26,15 +26,20 @@ export function PatientBottomNav() {
             <li key={it.href} className="flex-1">
               <Link
                 href={it.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-1 px-2 py-2.5 text-xs font-semibold",
+                  "sy-press flex flex-col items-center gap-1 rounded-2xl px-2 py-2 text-xs font-semibold transition-colors",
                   active ? "text-primary" : "text-muted",
                 )}
               >
-                <it.icon
-                  className="h-6 w-6"
-                  strokeWidth={active ? 2.4 : 1.9}
-                />
+                <span
+                  className={cn(
+                    "inline-flex h-10 w-16 items-center justify-center rounded-full transition-colors",
+                    active && "bg-primary/12",
+                  )}
+                >
+                  <it.icon className="h-6 w-6" strokeWidth={active ? 2.6 : 1.9} />
+                </span>
                 {it.label}
               </Link>
             </li>

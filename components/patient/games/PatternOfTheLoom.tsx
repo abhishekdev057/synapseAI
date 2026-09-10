@@ -129,14 +129,20 @@ export function PatternOfTheLoom(props: GameScreenProps) {
       headerRight={
         <button
           onClick={watchAgain}
-          className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-base font-medium"
+          className="sy-press inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-base font-medium"
         >
           <Play className="h-5 w-5" /> {t.showAgain}
         </button>
       }
     >
       <div className="space-y-5">
-        <p className="text-center text-xl font-medium">
+        <p
+          className={`rounded-2xl py-3 text-center text-xl font-semibold transition-colors ${
+            mode === "watch"
+              ? "bg-mustard/15 text-[color:var(--mustard)]"
+              : "bg-primary/10 text-primary"
+          }`}
+        >
           {mode === "watch" ? t.watchCarefully : t.nowYourTurn}
         </p>
         <div className="mx-auto grid max-w-sm grid-cols-3 gap-3">
@@ -149,16 +155,17 @@ export function PatternOfTheLoom(props: GameScreenProps) {
                 onClick={() => tap(i)}
                 disabled={mode !== "input"}
                 aria-label={`loom cell ${i + 1}`}
-                className={`aspect-square rounded-2xl border-2 transition ${
+                className={`sy-press aspect-square rounded-2xl border-2 transition duration-200 ${
                   isLit
-                    ? "scale-105 border-mustard bg-mustard shadow-lg"
+                    ? "scale-105 border-mustard bg-mustard shadow-[0_10px_28px_rgba(224,138,30,0.45)]"
                     : done
-                      ? "border-primary bg-primary/10"
+                      ? "border-primary bg-primary/15"
                       : "border-border bg-tint-lavender"
                 }`}
                 style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, rgba(22,58,99,0.06) 0 6px, transparent 6px 12px)",
+                  backgroundImage: isLit
+                    ? undefined
+                    : "repeating-linear-gradient(45deg, rgba(22,58,99,0.06) 0 6px, transparent 6px 12px)",
                 }}
               />
             );

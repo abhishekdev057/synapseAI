@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Check, Clock3 } from "lucide-react";
 import { SpeakButton } from "@/components/patient/SpeakButton";
+import { CheckDraw } from "@/components/patient/Motion";
 import { fmt, type Dict } from "@/lib/i18n";
 import { fmtTime } from "@/lib/utils";
 
@@ -63,28 +64,36 @@ export function ReminderList({
   }
 
   if (items.length === 0) {
-    return <p className="text-xl text-muted">{t.noRemindersToday}</p>;
+    return (
+      <div className="sy-card flex flex-col items-center gap-3 p-10 text-center">
+        <CheckDraw size={64} />
+        <p className="text-xl text-muted">{t.noRemindersToday}</p>
+      </div>
+    );
   }
 
   return (
-    <ul className="space-y-4">
+    <ul className="sy-stagger space-y-4">
       {items.map((o) => {
         const key = o.reminderId + o.time;
         const done = o.status === "done";
         return (
           <li
             key={key}
-            className={`rounded-2xl border p-5 ${
-              done ? "border-status-green/40 bg-status-green/5" : "border-border bg-surface"
+            className={`sy-card p-5 transition ${
+              done ? "border-status-green/40 bg-status-green/5" : ""
             }`}
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-4">
-                <span className="text-4xl" aria-hidden>
+                <span
+                  className="sy-medallion flex h-14 w-14 shrink-0 items-center justify-center text-3xl"
+                  aria-hidden
+                >
                   {KIND_EMOJI[o.kind] ?? "🔔"}
                 </span>
                 <div>
-                  <p className="text-2xl font-semibold">{o.title}</p>
+                  <p className="text-2xl font-bold text-navy">{o.title}</p>
                   <p className="text-lg text-muted">
                     {fmt(t.atTime, { time: fmtTime(o.scheduledFor) })}
                   </p>
@@ -97,27 +106,31 @@ export function ReminderList({
                 text={`${o.title}. ${o.description ?? ""}`}
                 lang={speechTag}
                 label={t.hear}
-                className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm"
+                iconOnly
+                className="sy-press inline-flex shrink-0 items-center rounded-xl border border-border bg-surface px-3 py-2 text-muted"
               />
             </div>
 
             {done ? (
-              <p className="mt-4 inline-flex items-center gap-2 text-lg font-semibold text-status-green">
-                <Check className="h-6 w-6" /> {t.done}
-              </p>
+              <div className="mt-4 flex items-center gap-3 rounded-2xl bg-status-green/10 px-4 py-3">
+                <CheckDraw size={36} />
+                <span className="text-lg font-bold text-status-green">
+                  {t.done}
+                </span>
+              </div>
             ) : (
               <div className="mt-4 flex gap-3">
                 <button
                   onClick={() => log(o, "done")}
                   disabled={busy === key}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-5 text-xl font-semibold text-primary-fg disabled:opacity-50"
+                  className="sy-press flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-5 text-xl font-bold text-primary-fg shadow-[0_10px_28px_rgba(44,138,81,0.28)] disabled:opacity-50"
                 >
-                  <Check className="h-7 w-7" /> {t.done}
+                  <Check className="h-7 w-7" strokeWidth={3} /> {t.done}
                 </button>
                 <button
                   onClick={() => log(o, "snoozed")}
                   disabled={busy === key}
-                  className="flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-5 text-lg font-medium disabled:opacity-50"
+                  className="sy-press flex items-center justify-center gap-2 rounded-2xl border-2 border-border bg-surface px-5 py-5 text-lg font-semibold disabled:opacity-50"
                 >
                   <Clock3 className="h-6 w-6" /> {t.later}
                 </button>

@@ -36,19 +36,22 @@ export default async function GamesList({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="sy-fade-rise space-y-6">
       <h1 className="text-3xl font-bold text-navy">{t.playAGame}</h1>
-      <ul className="space-y-4">
+      <ul className="sy-stagger space-y-4">
         {GAMES.map((g, i) => {
           const isPlayable = playable.has(g.key);
           const tint = TINTS[i % TINTS.length];
           const inner = (
             <>
-              <span className="text-4xl" aria-hidden>
+              <span
+                className="sy-medallion flex h-16 w-16 shrink-0 items-center justify-center text-3xl"
+                aria-hidden
+              >
                 {GAME_EMOJI[g.key] ?? "🎮"}
               </span>
               <div className="flex-1">
-                <p className="text-2xl font-semibold">{g.title}</p>
+                <p className="text-2xl font-bold text-navy">{g.title}</p>
                 <p className="text-base text-muted">{g.culturalTheme}</p>
               </div>
               {!isPlayable && (
@@ -61,7 +64,7 @@ export default async function GamesList({
               {isPlayable ? (
                 <Link
                   href={`/patient/games/${g.key.replace(/_/g, "-")}${q}`}
-                  className={`flex items-center gap-4 rounded-3xl border border-border ${tint} p-5`}
+                  className={`sy-press flex items-center gap-4 rounded-3xl border border-border ${tint} p-5 shadow-[0_6px_20px_rgba(22,58,99,0.06)]`}
                 >
                   {inner}
                 </Link>
@@ -76,7 +79,7 @@ export default async function GamesList({
           );
         })}
       </ul>
-      <p className="text-base text-muted">{t.takeYourTime}</p>
+      <p className="text-center text-base text-muted">{t.takeYourTime}</p>
     </div>
   );
 }
