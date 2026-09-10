@@ -32,32 +32,32 @@ val GAME_CATALOG = listOf(
     GameInfo(
         "market_basket", "Market Basket", CognitiveDomain.ATTENTION, "🧺",
         "Buying rice, betel nut, bamboo shoot and Assam tea at a virtual haat.",
-        playable = false,
+        playable = true,
     ),
     GameInfo(
         "morning_routine", "Morning Routine", CognitiveDomain.ROUTINE_RECALL, "🌅",
         "Putting the day's activities in order; ties into reminders.",
-        playable = false,
+        playable = true,
     ),
     GameInfo(
         "pattern_of_the_loom", "Pattern of the Loom", CognitiveDomain.PATTERN_RECOGNITION, "🧶",
         "Re-weaving Naga shawl, Mekhela Chador and Mizo puan motifs.",
-        playable = false,
+        playable = true,
     ),
     GameInfo(
         "bird_and_beast", "Bird & Beast", CognitiveDomain.ATTENTION, "🦏",
         "Finding the hornbill or one-horned rhino among distractors.",
-        playable = false,
+        playable = true,
     ),
     GameInfo(
         "song_of_the_hills", "Song of the Hills", CognitiveDomain.ENGAGEMENT, "🎵",
         "Humming along and filling missing words in regional folk songs.",
-        playable = false,
+        playable = true,
     ),
     GameInfo(
         "word_garden", "Word Garden", CognitiveDomain.LANGUAGE, "🌱",
         "Naming things in a category and completing proverbs in your language.",
-        playable = false,
+        playable = true,
     ),
 )
 

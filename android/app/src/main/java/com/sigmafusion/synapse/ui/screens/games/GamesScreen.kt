@@ -29,7 +29,7 @@ import com.sigmafusion.synapse.ui.i18n.gameTitle
 import com.sigmafusion.synapse.ui.theme.Dimens
 
 @Composable
-fun GamesScreen(onPlayMemoryLane: () -> Unit) {
+fun GamesScreen(onPlay: (String) -> Unit) {
     val t = LocalStrings.current
     ScreenColumn {
         GAME_CATALOG.forEach { game ->
@@ -37,11 +37,11 @@ fun GamesScreen(onPlayMemoryLane: () -> Unit) {
                 game = game,
                 title = t.gameTitle(game.key),
                 lockedLabel = t.locked,
-                onClick = { if (game.playable) onPlayMemoryLane() },
+                onClick = { if (game.playable) onPlay(game.key) },
             )
         }
         Text(
-            t.onlyMemoryLanePlayable,
+            t.pickAnyGame,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,

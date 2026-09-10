@@ -36,6 +36,7 @@ data class Strings(
 
     // Games
     val onlyMemoryLanePlayable: String,
+    val pickAnyGame: String,
     val locked: String,
 
     // Memory Lane
@@ -89,6 +90,30 @@ data class Strings(
     val gameBirdAndBeast: String,
     val gameSongOfHills: String,
     val gameWordGarden: String,
+
+    // Shared game words (English-only for now; the reviewed languages inherit
+    // these via `English.copy(...)` until a native speaker fills them in).
+    val showAgain: String,
+    val undo: String,
+    val watchCarefully: String,
+    val nowYourTurn: String,
+    val goodChoice: String,
+    val tryAnother: String,
+    val roundProgress: (a: Int, b: Int) -> String,
+    val instrMarketBasket: String,
+    val thingsToBuy: String,
+    val goToMarket: String,
+    val instrMorningRoutine: String,
+    val instrPatternLoom: String,
+    val instrBirdBeast: (target: String) -> String,
+    val theHornbill: String,
+    val theRhino: String,
+    val instrSongHills: String,
+    val hearTheLine: String,
+    val instrWordGarden: String,
+    val sayTheWord: String,
+    val listening: String,
+    val orTapAnswer: String,
 )
 
 private val English = Strings(
@@ -111,6 +136,7 @@ private val English = Strings(
     greetingNoNext = { name -> "Hello $name. There are no more reminders today." },
     welcome = "Welcome to Synapse.",
     onlyMemoryLanePlayable = "Only Memory Lane is playable here. The rest show the planned suite.",
+    pickAnyGame = "Pick any game. Take your time — there is no timer and no score.",
     locked = "Locked",
     findMatchingPictures = "Find the matching pictures.",
     takeYourTime = "Find the matching pictures. Take your time.",
@@ -154,6 +180,27 @@ private val English = Strings(
     gameBirdAndBeast = "Bird & Beast",
     gameSongOfHills = "Song of the Hills",
     gameWordGarden = "Word Garden",
+    showAgain = "Show me again",
+    undo = "Undo",
+    watchCarefully = "Watch carefully.",
+    nowYourTurn = "Now it is your turn.",
+    goodChoice = "Good choice.",
+    tryAnother = "Not quite. Try another.",
+    roundProgress = { a, b -> "$a of $b" },
+    instrMarketBasket = "Remember what to buy, then pick each thing at the market.",
+    thingsToBuy = "Things to buy",
+    goToMarket = "Go to the market",
+    instrMorningRoutine = "Put the morning steps in the order you do them.",
+    instrPatternLoom = "Watch the lights on the loom, then tap them in the same order.",
+    instrBirdBeast = { target -> "Tap every $target you can see. Leave the rest." },
+    theHornbill = "hornbill",
+    theRhino = "rhino",
+    instrSongHills = "One word is missing from the song. Choose the word that fits.",
+    hearTheLine = "Hear the line",
+    instrWordGarden = "What is this? Say the word, or tap the right answer.",
+    sayTheWord = "Say the word",
+    listening = "Listening…",
+    orTapAnswer = "or tap an answer",
 )
 
 private val Hindi = English.copy(
