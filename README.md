@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Synapse
 
-## Getting Started
+**AI-Based Cognitive Gaming and Memory Assistance Platform for Elderly Dementia
+Patients in the North Eastern Region (NER)**
 
-First, run the development server:
+Smart India Hackathon — Problem Statement **26003** — Ministry of Development of
+North Eastern Region (MDoNER). Category: Software. Theme: MedTech / HealthTech.
+
+> Full mentor-facing write-up: [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)
+
+---
+
+## What this is
+
+A full-stack scaffold with **three role-based front-ends** on one database and
+one API:
+
+| Role | Route | Summary |
+|------|-------|---------|
+| **Patient** | `/patient` | Voice-led, large-target home screen; adaptive cognitive game (**Memory Lane**); spoken reminders with big "Done" buttons; "Who is this?" family aid. No timers, no scores, no failure states. |
+| **Family caregiver** | `/caregiver` | Engagement + reminder adherence, plain-language cognitive status per domain, alert feed, reminder & contact management. |
+| **Clinician / ASHA** | `/clinician` | Prioritised patient list with a traffic-light status; per-patient trend charts, an auto-generated referral summary, and an alert feed. |
+
+Two dependency-free algorithm modules power the "AI":
+
+- **`lib/adaptive.ts`** — Dynamic Difficulty Adjustment, steering each patient to
+  a 75–85 % success "flow zone".
+- **`lib/decline.ts`** — Cognitive decline detection (regression slope + level
+  shift), producing the plain-language alerts.
+
+Both are pure functions, written to move to an on-device offline client unchanged.
+
+---
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 ·
+Neon Postgres · Drizzle ORM · Recharts · Zod · Web Speech API
+
+---
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+
+cp .env.example .env          # paste your Neon pooled DATABASE_URL
+
+npm run db:push               # create tables in Neon
+npm run db:seed               # load demo data (3 patients, ~3 weeks history)
+
+npm run dev                   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run db:push` | Sync `db/schema.ts` to Neon |
+| `npm run db:seed` | Load demo data |
+| `npm run db:studio` | Drizzle Studio |
+| `npm run db:generate` | Generate SQL migration files |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/            Next.js routes — patient / caregiver / clinician / api
+db/             Drizzle schema + seed
+lib/            db client, queries, adaptive engine, decline detection, referral
+components/     shared UI + patient/ + dashboard/ component sets
+docs/           PROJECT_OVERVIEW.md (read this)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Status
 
-## Deploy on Vercel
+This is a hackathon **base scaffold**. Real: schema, both algorithms, the API,
+all three dashboards, seeded data. Pending: authentication, the other six games,
+auto-firing alerts (Vercel Cron), the offline PWA client, and the tiered
+NER-language voice stack. See `docs/PROJECT_OVERVIEW.md` §14–15.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — see [`LICENSE`](LICENSE).

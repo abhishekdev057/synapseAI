@@ -1,69 +1,83 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Activity, HeartPulse, Stethoscope } from "lucide-react";
+
+const PERSONAS = [
+  {
+    href: "/patient",
+    icon: Activity,
+    title: "Patient app",
+    who: "Elderly dementia patient",
+    blurb:
+      "Voice-led, large-target home screen: orientation, cognitive games with adaptive difficulty, spoken reminders and a “Who is this?” family aid.",
+  },
+  {
+    href: "/caregiver",
+    icon: HeartPulse,
+    title: "Family dashboard",
+    who: "Family caregiver",
+    blurb:
+      "Set reminders, watch engagement and adherence in plain language, act on early alerts, and manage the family photo/voice contacts.",
+  },
+  {
+    href: "/clinician",
+    icon: Stethoscope,
+    title: "Clinician dashboard",
+    who: "ASHA worker / PHC doctor",
+    blurb:
+      "Multi-patient list with a traffic-light status, per-domain cognitive trend charts, a decline-detection feed and a referral summary.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
+      <header className="mb-10">
+        <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          SIH PS 26003 · MDoNER · MedTech / HealthTech
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Synapse</h1>
+        <p className="mt-2 max-w-2xl text-muted">
+          AI-based cognitive gaming and memory assistance for elderly dementia
+          patients in the North Eastern Region. Offline-first, voice-led,
+          culturally rooted, and built around three roles.
+        </p>
+      </header>
+
+      <div className="grid gap-5 sm:grid-cols-3">
+        {PERSONAS.map((p) => (
+          <Link
+            key={p.href}
+            href={p.href}
+            className="group rounded-2xl border border-border bg-surface p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <p.icon className="h-8 w-8 text-primary" strokeWidth={1.75} />
+            <h2 className="mt-4 text-lg font-semibold">{p.title}</h2>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted">
+              {p.who}
+            </p>
+            <p className="mt-3 text-sm text-muted">{p.blurb}</p>
+            <span className="mt-4 inline-block text-sm font-medium text-primary group-hover:underline">
+              Open →
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <section className="mt-12 rounded-2xl border border-border bg-surface p-6">
+        <h3 className="text-sm font-semibold">What is in this scaffold</h3>
+        <ul className="mt-3 grid gap-2 text-sm text-muted sm:grid-cols-2">
+          <li>• Next.js 16 App Router + TypeScript + Tailwind v4</li>
+          <li>• Neon Postgres via Drizzle ORM (11 tables)</li>
+          <li>• Adaptive difficulty engine (75–85% flow zone)</li>
+          <li>• Cognitive decline detection (trend slope + level shift)</li>
+          <li>• REST API under <code>/api</code> for the patient PWA</li>
+          <li>• Seeded demo data — 3 patients, ~3 weeks of history</li>
+        </ul>
+        <p className="mt-4 text-xs text-muted">
+          See <code>docs/PROJECT_OVERVIEW.md</code> for the full mentor-facing
+          write-up.
+        </p>
+      </section>
+    </main>
   );
 }

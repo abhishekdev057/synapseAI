@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
+/*
+  Synapse design tokens.
+  Primary: deep teal / indigo. Accents: terracotta + mustard (NER textiles).
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #f7f8f7;
+  --surface: #ffffff;
+  --foreground: #17242b;
+  --muted: #5b6b73;
+  --border: #e3e7e6;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --primary: #0f766e; /* teal-700 */
+  --primary-fg: #ffffff;
+  --indigo: #3b3f8f;
+  --terracotta: #c1613b;
+  --mustard: #d9a441;
+
+  --green: #2f9e6b;
+  --amber: #d9a441;
+  --red: #cf4b3f;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0c1416;
+    --surface: #121e21;
+    --foreground: #e8eeec;
+    --muted: #9bb0b3;
+    --border: #223236;
+    --primary: #2dd4bf;
+    --primary-fg: #06201d;
   }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-indigo: var(--indigo);
+  --color-terracotta: var(--terracotta);
+  --color-mustard: var(--mustard);
+  --color-status-green: var(--green);
+  --color-status-amber: var(--amber);
+  --color-status-red: var(--red);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Patient-facing screens opt into larger, higher-contrast typography. */
+.patient-scope {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+.patient-scope button {
+  min-height: 4rem;
 }
