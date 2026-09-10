@@ -589,6 +589,14 @@ Or open `android/` in Android Studio and Run. The server URL defaults to
 `https://synapse.sigmafusion.in/` (`DEFAULT_BASE_URL` in `app/build.gradle.kts`)
 and is overridable in-app under Settings.
 
+**The build attaches itself to the website.** A `finalizedBy` task
+(`attachApkToWeb`) runs after every `assembleDebug` and copies the APK to
+`../public/downloads/synapse-patient.apk` plus an `apk-info.json` (size, build
+time, version). The web app shows a **Download APK** card on the landing page
+and at the bottom of `/patient`, so judges can install it straight from
+`synapse.sigmafusion.in`. Commit the two files in `public/downloads/` after a
+build so the deploy serves the current APK.
+
 ### Package map (`android/app/src/main/java/com/sigmafusion/synapse/`)
 ```
 SynapseApp.kt            Application — DI container, channels, first-run sync

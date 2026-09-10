@@ -58,6 +58,41 @@ android {
     }
 }
 
+/*
+ * After every debug build, drop the APK into the Next.js app's public/ folder so
+ * it is downloadable from the website (patient view → "Get the Android app").
+ */
+val webDownloadsDir = rootProject.layout.projectDirectory.dir("../public/downloads")
+
+tasks.register("attachApkToWeb") {
+    description = "Copies app-debug.apk into ../public/downloads for the website."
+    doLast {
+        val apk = layout.buildDirectory
+            .file("outputs/apk/debug/app-debug.apk").get().asFile
+        if (!apk.exists()) {
+            println("attachApkToWeb: no APK at ${apk.path}, skipping")
+            return@doLast
+        }
+        val outDir = webDownloadsDir.asFile.apply { mkdirs() }
+        val dest = outDir.resolve("synapse-patient.apk")
+        apk.copyTo(dest, overwrite = true)
+        outDir.resolve("apk-info.json").writeText(
+            """
+            {
+              "sizeBytes": ${dest.length()},
+              "builtAt": ${System.currentTimeMillis()},
+              "versionName": "${android.defaultConfig.versionName}"
+            }
+            """.trimIndent(),
+        )
+        println("attachApkToWeb: ${dest.relativeTo(rootProject.rootDir)} (${dest.length() / 1_048_576} MB)")
+    }
+}
+
+tasks.matching { it.name == "assembleDebug" }.configureEach {
+    finalizedBy("attachApkToWeb")
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)

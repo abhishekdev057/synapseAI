@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Brain, Pill, Users } from "lucide-react";
+import { ApkDownload } from "@/components/ApkDownload";
 import { Clock } from "@/components/patient/Clock";
 import { SpeakButton } from "@/components/patient/SpeakButton";
 import { resolvePatientId } from "@/lib/demo";
@@ -81,6 +82,8 @@ export default async function PatientHome({
       <p className="text-center text-base text-muted">
         If you feel lost, press and hold the Home button to call your family.
       </p>
+
+      <ApkDownload />
     </div>
   );
 }

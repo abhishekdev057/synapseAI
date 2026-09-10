@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Activity, HeartPulse, Stethoscope } from "lucide-react";
+import { ApkDownload } from "@/components/ApkDownload";
 
 const PERSONAS = [
   {
@@ -61,6 +62,10 @@ export default function Home() {
             </span>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-6">
+        <ApkDownload />
       </div>
 
       <section className="mt-12 rounded-2xl border border-border bg-surface p-6">
